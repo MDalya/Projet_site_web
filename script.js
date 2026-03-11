@@ -2,13 +2,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let tasks = JSON.parse(localStorage.getItem('dalyaTasks')) || [];
     const catEmojis = { 'Cours': '📚', 'Perso': '🏠', 'Travail': '💼', 'Asso': '🤝' };
     
-    // Upload image
-    const fileInput = document.getElementById('fileInput');
+    // --- Gestion Profil ---
     const profileImg = document.getElementById('profileImg');
-    const savedAvatar = localStorage.getItem('userAvatar');
-    if (savedAvatar) profileImg.src = savedAvatar;
+    const userName = document.getElementById('userName');
+    const userTitle = document.getElementById('userTitle');
 
-    fileInput.addEventListener('change', (e) => {
+    // Charger les données sauvegardées
+    if (localStorage.getItem('userAvatar')) profileImg.src = localStorage.getItem('userAvatar');
+    if (localStorage.getItem('userName')) userName.innerText = localStorage.getItem('userName');
+    if (localStorage.getItem('userTitle')) userTitle.innerText = localStorage.getItem('userTitle');
+
+    // Sauvegarder les modifs au clic en dehors du champ
+    [userName, userTitle].forEach(el => {
+        el.addEventListener('blur', () => {
+            localStorage.setItem('userName', userName.innerText);
+            localStorage.setItem('userTitle', userTitle.innerText);
+        });
+    });
+
+    document.getElementById('fileInput').addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
@@ -20,13 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- Gestion Tâches ---
     function render() {
         const taskGrid = document.getElementById('taskGrid');
         taskGrid.innerHTML = "";
         
         let completed = tasks.filter(t => t.status === 'termine').length;
         const percent = tasks.length ? Math.round((completed / tasks.length) * 100) : 0;
-        
         document.getElementById('progressBar').style.width = percent + "%";
         document.getElementById('statsText').innerText = `${percent}% des tâches complétées`;
 
