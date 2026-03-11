@@ -1,13 +1,27 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-const firebaseConfig = { /* TON OBJET CONFIG ICI */ };
+const firebaseConfig = { /* REMPLACE PAR TON OBJET CONFIG */ };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 const catEmojis = { 'Cours': '📚', 'Perso': '🏠', 'Travail': '💼', 'Asso': '🤝' };
 
-if (localStorage.getItem('userMail')) showApp();
+// Chargement sécurisé
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('userMail')) showApp();
+
+    document.getElementById('loginBtn').onclick = () => {
+        localStorage.setItem('userNom', `${document.getElementById('loginNom').value} ${document.getElementById('loginPrenom').value}`);
+        localStorage.setItem('userMail', document.getElementById('loginMail').value);
+        showApp();
+    };
+
+    document.getElementById('guestBtn').onclick = () => {
+        localStorage.setItem('userNom', "Invité");
+        localStorage.setItem('userMail', "guest");
+        showApp();
+    };
+});
 
 function showApp() {
     document.getElementById('loginPage').style.display = 'none';
@@ -17,17 +31,14 @@ function showApp() {
     loadTasks();
 }
 
-document.getElementById('loginBtn').onclick = () => {
-    localStorage.setItem('userNom', `${document.getElementById('loginNom').value} ${document.getElementById('loginPrenom').value}`);
-    localStorage.setItem('userMail', document.getElementById('loginMail').value);
-    showApp();
-};
-
-document.getElementById('guestBtn').onclick = () => {
-    localStorage.setItem('userNom', "Invité");
-    localStorage.setItem('userMail', "guest");
-    showApp();
-};
+document.getElementById('fileInput').addEventListener('change', (e) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        document.getElementById('profileImg').src = event.target.result;
+        localStorage.setItem('userAvatar', event.target.result);
+    };
+    reader.readAsDataURL(e.target.files[0]);
+});
 
 function loadTasks() {
     const statusConfig = {
@@ -58,6 +69,7 @@ function loadTasks() {
 document.getElementById('addBtn').onclick = () => {
     addDoc(collection(db, "tasks"), { text: document.getElementById('taskInput').value, category: document.getElementById('taskCategory').value, user: localStorage.getItem('userMail'), status: 'indetermine' });
 };
+
 window.update = (id, status) => updateDoc(doc(db, "tasks", id), { status });
 window.supprimer = (id) => deleteDoc(doc(db, "tasks", id));
 document.getElementById('logoutBtn').onclick = () => { localStorage.clear(); location.reload(); };

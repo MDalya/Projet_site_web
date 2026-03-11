@@ -1,22 +1,16 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
 body { background: #0d1117; color: #c9d1d9; min-height: 100vh; display: flex; flex-direction: column; }
-
-/* Connexion */
 .login-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
 .login-card { background: #161b22; padding: 40px; border-radius: 12px; border: 1px solid #30363d; width: 400px; display: flex; flex-direction: column; gap: 15px; }
 .login-card input { padding: 12px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: white; }
 .login-card button { padding: 12px; background: #238636; color: white; border: none; border-radius: 6px; cursor: pointer; }
 .btn-guest { background: #30363d !important; }
-
-/* Dashboard large */
 .main-wrapper { padding: 20px; width: 95%; max-width: 1200px; margin: auto; }
 .profile-card { display: flex; align-items: center; gap: 20px; background: #161b22; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
 .profile-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #30363d; cursor: pointer; }
-
-/* Tâches */
 .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 .card { background: #161b22; padding: 20px; border-radius: 8px; border: 1px solid #30363d; display: flex; flex-direction: column; }
 .card-actions { display: flex; gap: 10px; margin-top: auto; padding-top: 15px; }
 .card-actions button { background: #21262d; border: 1px solid #30363d; padding: 5px 10px; border-radius: 4px; cursor: pointer; color: white; }
-.btn-supprimer { background: #da3633 !important; color: white !important; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+.btn-supprimer { background: #da3633 !important; }
 footer { text-align: center; padding: 20px; color: #8b949e; margin-top: auto; }
