@@ -1,57 +1,37 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-// --- CONFIGURATION FIREBASE ---
-const firebaseConfig = {
-    apiKey: "AIzaSyDS6qeoE5mZ6vQbaEuY5mLG76CEhlyFyAc",
-    authDomain: "projet-site-web-portfolio.firebaseapp.com",
-    projectId: "projet-site-web-portfolio",
-    storageBucket: "projet-site-web-portfolio.firebasestorage.app",
-    messagingSenderId: "646439541766",
-    appId: "1:646439541766:web:610bca11a9c95767a7b787",
-    measurementId: "G-34K5W24YCK"
-};
-
+const firebaseConfig = { /* TON CONFIG ICI */ };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// --- LOGIQUE APPLICATION ---
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Boutons Connexion / Invité
+    // Connexion avec validation
     document.getElementById('loginBtn').addEventListener('click', () => {
-        localStorage.setItem('userNom', `${document.getElementById('loginNom').value} ${document.getElementById('loginPrenom').value}`);
-        localStorage.setItem('userMail', document.getElementById('loginMail').value);
+        const n = document.getElementById('loginNom').value.trim();
+        const p = document.getElementById('loginPrenom').value.trim();
+        const m = document.getElementById('loginMail').value.trim();
+        if (!n || !p || !m) return alert("Remplissez tous les champs !");
+        
+        localStorage.setItem('userNom', `${n} ${p}`);
+        localStorage.setItem('userMail', m);
         showApp();
     });
 
     document.getElementById('guestBtn').addEventListener('click', () => {
         localStorage.setItem('userNom', "Invité");
         localStorage.setItem('userMail', "guest");
+        localStorage.removeItem('userAvatar');
         showApp();
     });
 
-    // Ajout Tâche
     document.getElementById('addBtn').addEventListener('click', () => {
-        const input = document.getElementById('taskInput');
-        if(input.value) {
-            addDoc(collection(db, "tasks"), { 
-                text: input.value, 
-                category: document.getElementById('taskCategory').value, 
-                user: localStorage.getItem('userMail'), 
-                status: 'indetermine' 
-            });
-            input.value = "";
-        }
+        const val = document.getElementById('taskInput').value;
+        if(val) addDoc(collection(db, "tasks"), { text: val, category: document.getElementById('taskCategory').value, user: localStorage.getItem('userMail'), status: 'indetermine' });
     });
 
-    // Déconnexion
-    document.getElementById('logoutBtn').addEventListener('click', () => { 
-        localStorage.clear(); 
-        location.reload(); 
-    });
+    document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.clear(); location.reload(); });
 
-    // Gestion boutons de tâches (Délégation d'événements)
     document.getElementById('taskGrid').addEventListener('click', (e) => {
         const id = e.target.dataset.id;
         if (!id) return;
@@ -68,11 +48,14 @@ function showApp() {
     document.getElementById('loginPage').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     document.getElementById('userName').innerText = localStorage.getItem('userNom');
+    
+    const avatar = localStorage.getItem('userAvatar');
+    document.getElementById('profileImg').src = avatar || "medias/default-avatar.png";
     loadTasks();
 }
 
 function loadTasks() {
-    const statusConfig = { 'encours': '#f7931a', 'termine': '#238636', 'indetermine': '#8250df' };
+    const statusConfig = { 'En cours': '#f7931a', 'Terminé': '#238636', 'Indéterminé': '#8250df' };
     const catEmojis = { 'Cours': '📚', 'Perso': '🏠', 'Travail': '💼', 'Asso': '🤝' };
 
     onSnapshot(query(collection(db, "tasks"), where("user", "==", localStorage.getItem('userMail'))), (snapshot) => {
