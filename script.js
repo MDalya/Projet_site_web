@@ -5,6 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function render() {
         const taskGrid = document.getElementById('taskGrid');
         taskGrid.innerHTML = "";
+        
+        let completed = tasks.filter(t => t.status === 'termine').length;
+        const percent = tasks.length ? Math.round((completed / tasks.length) * 100) : 0;
+        
+        document.getElementById('progressBar').style.width = percent + "%";
+        document.getElementById('statsText').innerText = `${percent}% des tâches complétées`;
+
         tasks.forEach(t => {
             const card = document.createElement('div');
             card.className = `card ${t.status}`;
@@ -31,11 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     document.getElementById('addBtn').onclick = () => {
-        const text = document.getElementById('taskInput').value;
-        const category = document.getElementById('taskCategory').value;
-        if(text) {
-            tasks.push({id: Date.now(), text, category, status: 'encours'});
-            document.getElementById('taskInput').value = "";
+        const input = document.getElementById('taskInput');
+        const cat = document.getElementById('taskCategory');
+        if(input.value) {
+            tasks.push({id: Date.now(), text: input.value, category: cat.value, status: 'encours'});
+            input.value = "";
             render();
         }
     };

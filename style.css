@@ -5,19 +5,23 @@ body { background-color: #0d1117; color: #c9d1d9; font-family: sans-serif; min-h
 .profile-card { display: flex; align-items: center; gap: 20px; background: #161b22; padding: 20px; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px; }
 .profile-img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
 
-.task-form, .card { background: #161b22; padding: 20px; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px; }
+.stats-box, .task-form, .card { background: #161b22; padding: 20px; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px; }
+.progress-bar { background: #30363d; height: 10px; border-radius: 5px; margin-top: 10px; overflow: hidden; }
+#progressBar { background: #238636; height: 100%; width: 0%; transition: 0.5s; }
+
+.task-form { display: flex; gap: 10px; }
 .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
 
-/* Couleurs statuts */
 .card { border-left: 5px solid #8b949e; }
-.card.encours { border-left-color: #f78166; } /* Orange */
-.card.termine { border-left-color: #238636; } /* Vert */
-.card.attente { border-left-color: #a371f7; } /* Violet */
+.card.encours { border-left-color: #f78166; } 
+.card.termine { border-left-color: #238636; } 
+.card.attente { border-left-color: #a371f7; }
 
-button { border: none; padding: 8px; border-radius: 4px; cursor: pointer; color: white; margin-top: 5px; width: 100%; }
+button { border: none; padding: 8px; border-radius: 4px; cursor: pointer; color: white; margin-top: 5px; width: 100%; font-weight: bold; }
+#addBtn { background-color: #238636; }
 .btn-encours { background: #f78166; }
 .btn-termine { background: #238636; }
 .btn-attente { background: #a371f7; }
 .btn-supprimer { background: #57606a; }
 
-footer { text-align: center; padding: 20px; color: #8b949e; border-top: 1px solid #30363d; }
+footer { text-align: center; padding: 20px; color: #8b949e; border-top: 1px solid #30363d; margin-top: auto; }
