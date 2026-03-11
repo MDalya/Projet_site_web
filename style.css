@@ -1,26 +1,32 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
 body { background-color: #eef0f8; font-family: Arial, sans-serif; padding: 20px; }
 .container { max-width: 1070px; margin: 0 auto; }
 
-/* Profil et cartes contrastés */
-.profile-card, .task-form, .card { background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+/* Contraste entre fond et conteneurs */
+.profile-card, .stats-box, .task-form, .card { 
+    background-color: #ffffff; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    margin-bottom: 20px;
+}
 
-.profile-card { display: flex; align-items: center; padding: 20px; margin-bottom: 20px; }
+.profile-card { display: flex; align-items: center; padding: 20px; gap: 20px; }
 .profile-img { width: 91px; height: 73px; border-radius: 15px; }
 
-.stats-box { margin: 20px 0; background: #fff; padding: 15px; border-radius: 10px; }
-.progress-bar { background: #eee; height: 10px; border-radius: 5px; margin-top: 10px; }
-#progressBar { background: #27ae60; height: 100%; width: 0%; border-radius: 5px; transition: 0.3s; }
+.stats-box { padding: 20px; }
+.progress-bar { background: #eee; height: 12px; border-radius: 6px; margin-top: 10px; overflow: hidden; }
+#progressBar { background: #27ae60; height: 100%; width: 0%; transition: 0.3s; }
 
-.task-form { display: flex; padding: 20px; gap: 10px; margin-bottom: 20px; }
+.task-form { display: flex; padding: 20px; gap: 10px; }
 .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 
-.card { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-.card-buttons { display: flex; gap: 5px; margin-top: auto; }
+.card { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+.card-buttons { display: flex; gap: 8px; margin-top: auto; }
 
 /* Boutons demandés */
-button { padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; color: white; font-weight: bold; }
+button { padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; color: white; font-weight: bold; }
 .btn-encours { background-color: #f39c12; }
 .btn-termine { background-color: #27ae60; }
 .btn-supprimer { background-color: #c0392b; }
 
-footer { text-align: center; margin-top: 40px; color: #7f8c8d; }
+footer { text-align: center; padding: 30px; color: #7f8c8d; }

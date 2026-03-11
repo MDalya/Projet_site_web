@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             taskGrid.appendChild(card);
         });
 
+        // Actualisation barre progression
         const pct = tasks.length ? Math.round((completedCount / tasks.length) * 100) : 0;
         document.getElementById('progressBar').style.width = pct + "%";
         document.getElementById('statsText').innerText = pct + "% des tâches complétées";
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const cat = document.getElementById('taskCategory').value;
         if(text) {
             tasks.push({id: Date.now(), text, cat, status: 'encours'});
+            document.getElementById('taskInput').value = "";
             render();
         }
     };
