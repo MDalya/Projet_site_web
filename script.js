@@ -3,28 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskInput = document.getElementById('taskInput');
     const taskCategory = document.getElementById('taskCategory');
     const taskGrid = document.getElementById('taskGrid');
-
-    // 1. Charger les tâches sauvegardées au démarrage
     let tasks = JSON.parse(localStorage.getItem('dalyaTasks')) || [];
-    renderTasks();
 
-    // 2. Ajouter une tâche
-    addBtn.addEventListener('click', () => {
-        if (taskInput.value.trim() === "") return;
+    function updateStats() {
+        const total = tasks.length;
+        const done = tasks.filter(t => t.completed).length;
+        const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+        document.getElementById('progressBar').style.width = pct + "%";
+        document.getElementById('statsText').innerText = `${pct}% complété`;
+    }
 
-        const newTask = {
-            id: Date.now(),
-            text: taskInput.value,
-            category: taskCategory.value,
-            completed: false
-        };
-
-        tasks.push(newTask);
-        saveAndRender();
-        taskInput.value = "";
-    });
-
-    // 3. Fonction pour dessiner la grille
     function renderTasks() {
         taskGrid.innerHTML = "";
         tasks.sort((a, b) => b.id - a.id).forEach(task => {
@@ -32,37 +20,36 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = `card ${task.completed ? 'is-completed' : ''}`;
             card.innerHTML = `
                 <span class="card-category">${task.category}</span>
-                
-                <div class="card-content">
-                    <h3>${task.text}</h3>
-                </div>
-
+                <h3>${task.text}</h3>
                 <div class="card-buttons">
-                    <button class="btn-task complete" onclick="toggleTask(${task.id})">
-                        ${task.completed ? '🔄 Refaire' : '✅ Fait'}
-                    </button>
-                    <button class="btn-task delete" onclick="deleteTask(${task.id})">
-                        🗑️ Supprimer
-                    </button>
+                    <button class="btn-task complete" onclick="toggleTask(${task.id})">${task.completed ? '🔄' : '✅'} Fait</button>
+                    <button class="btn-task delete" onclick="deleteTask(${task.id})">🗑️ Suppr</button>
                 </div>
             `;
             taskGrid.appendChild(card);
         });
+        updateStats();
     }
 
-    // 4. Fonctions globales (accessibles par onclick)
+    addBtn.addEventListener('click', () => {
+        if (taskInput.value.trim() === "") return;
+        tasks.push({ id: Date.now(), text: taskInput.value, category: taskCategory.value, completed: false });
+        localStorage.setItem('dalyaTasks', JSON.stringify(tasks));
+        taskInput.value = "";
+        renderTasks();
+    });
+
     window.toggleTask = (id) => {
         tasks = tasks.map(t => t.id === id ? {...t, completed: !t.completed} : t);
-        saveAndRender();
+        localStorage.setItem('dalyaTasks', JSON.stringify(tasks));
+        renderTasks();
     };
 
     window.deleteTask = (id) => {
         tasks = tasks.filter(t => t.id !== id);
-        saveAndRender();
-    };
-
-    function saveAndRender() {
         localStorage.setItem('dalyaTasks', JSON.stringify(tasks));
         renderTasks();
-    }
+    };
+
+    renderTasks();
 });

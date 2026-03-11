@@ -3,47 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dalya Meharzi | Focus Flow</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Dalya | Dashboard Productivité</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="container">
-        
-        <header class="app-header">
-            <div class="profile-compact">
-                <img src="medias/Photodeprofil.png" class="profile-img" alt="Profile" onerror="this.src='https://ui-avatars.com/api/?name=DM&background=1ABC9C&color=fff'">
-                <div class="profile-text">
-                    <h1>Dalya Meharzi</h1>
-                    <p>Focus Flow Dashboard</p>
-                </div>
-            </div>
-            <div class="header-status">
-                <span class="status-badge"><img src="icons/icons8-tic-tac-32.png" class="icon" alt="Timer"> Objectifs 2026</span>
+        <header class="profile-card">
+            <img src="medias/Photodeprofil.png" class="profile-img" alt="Profile" onerror="this.src='https://ui-avatars.com/api/?name=DM&background=4F46E5&color=fff'">
+            <div class="profile-text">
+                <h1>Dalya Meharzi</h1>
+                <p>Dashboard Productivité 2026</p>
             </div>
         </header>
 
-        <section class="task-form-container">
-            <div class="task-form">
-                <input type="text" id="taskInput" placeholder="Quelle est la prochaine mission ?">
-                <select id="taskCategory">
-                    <option value="Cours">📚 Cours</option>
-                    <option value="Perso">🏠 Perso</option>
-                    <option value="Travail">💼 Travail</option>
-                    <option value="Projet">🚀 Projet</option>
-                </select>
-                <button id="addBtn" class="add-btn">+</button>
+        <div class="stats-container">
+            <div class="progress-bar-bg">
+                <div id="progressBar" class="progress-bar-fill"></div>
             </div>
+            <p id="statsText">0% complété</p>
+        </div>
+
+        <section class="task-form">
+            <input type="text" id="taskInput" placeholder="Quelle est la mission du jour ?">
+            <select id="taskCategory">
+                <option value="Cours">📚 Cours</option>
+                <option value="Perso">🏠 Perso</option>
+                <option value="Travail">💼 Travail</option>
+                <option value="Projet">🚀 Projet</option>
+            </select>
+            <button id="addBtn" class="add-btn">+</button>
         </section>
 
         <main class="grid-container" id="taskGrid">
             </main>
-
     </div>
-
-    <footer>
-        <p>Design & Code by Dalya Meharzi · 2026 ©</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
