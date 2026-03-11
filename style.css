@@ -33,3 +33,6 @@ input, select { background: #0d1117 !important; border: 1px solid #30363d !impor
 button { background-color: #238636; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; }
 
 footer { text-align: center; color: #8b949e; margin-top: 40px; }
+
+.btn-termine { background-color: #238636 !important; border: none; padding: 5px 10px; cursor: pointer; color: white; border-radius: 4px; }
+.btn-supprimer { background-color: #da3633 !important; border: none; padding: 5px 10px; cursor: pointer; color: white; border-radius: 4px; }
