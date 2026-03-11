@@ -2,48 +2,45 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Dalya Meharzi | Dashboard</title>
+    <title>Dashboard | Dalya Meharzi</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header class="profile-card">
-            <div class="pdp">
-                <img src="medias/Photodeprofil.png" class="profile-img" alt="Profile Picture">
-            </div>
-            <div class="profile-info">
-                <div class="nom">MEHARZI Dalya IR3</div>
-                <div class="infos">
-                    <span><img src="icons/icons8-téléphone-50.png" class="icon" alt="Phone"> OPPO A73</span>
-                    <span><img src="icons/icons8-tic-tac-32.png" class="icon" alt="Timer"> Max2022</span>
-                    <span><img src="icons/icons8-facebook-nouveau-50.png" class="icon" alt="Facebook"> MaxSM</span>
+    <div class="main-wrapper">
+        <div class="container">
+            <header class="profile-card">
+                <div class="pdp">
+                    <img src="medias/Photodeprofil.png" class="profile-img" alt="Profile">
                 </div>
-            </div>
-        </header>
+                <div class="profile-info">
+                    <div class="nom">MEHARZI Dalya</div>
+                    <div class="sous-titre">Dashboard de Productivité</div>
+                </div>
+            </header>
 
-        <div class="stats-box">
-            <p id="statsText">0% des tâches complétées</p>
-            <div class="progress-bar"><div id="progressBar"></div></div>
+            <div class="stats-box">
+                <p id="statsText">0% des tâches complétées</p>
+                <div class="progress-bar"><div id="progressBar"></div></div>
+            </div>
+
+            <section class="task-form">
+                <input type="text" id="taskInput" placeholder="Quelle est la mission ?">
+                <select id="taskCategory">
+                    <option value="Cours">Cours</option>
+                    <option value="Perso">Perso</option>
+                    <option value="Travail">Travail</option>
+                    <option value="Asso">Asso</option>
+                </select>
+                <button id="addBtn" class="add-btn">Ajouter</button>
+            </section>
+
+            <main class="grid-container" id="taskGrid"></main>
         </div>
 
-        <section class="task-form">
-            <input type="text" id="taskInput" placeholder="Nouvelle mission...">
-            <select id="taskCategory">
-                <option value="Cours">📚 Cours</option>
-                <option value="Perso">🏠 Perso</option>
-                <option value="Travail">💼 Travail</option>
-                <option value="Asso">🤝 Asso</option>
-            </select>
-            <button id="addBtn" class="add-btn">Ajouter</button>
-        </section>
-
-        <main class="grid-container" id="taskGrid"></main>
+        <footer>
+            <p>Code et design Dalya MEHARZI © 2026</p>
+        </footer>
     </div>
-
-    <footer>
-        <p>Code et design Dalya MEHARZI © 2026</p>
-    </footer>
-
     <script src="script.js"></script>
 </body>
 </html>

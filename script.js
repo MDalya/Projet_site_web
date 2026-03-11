@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-                <h3>${t.text} (${t.cat})</h3>
+                <h3>${t.text} <small style="color:#8b949e">(${t.cat})</small></h3>
                 <div class="card-buttons">
                     <button class="btn-encours" onclick="update(${t.id}, 'encours')">En cours</button>
                     <button class="btn-termine" onclick="update(${t.id}, 'termine')">Terminé</button>
@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
             taskGrid.appendChild(card);
         });
 
-        // Actualisation barre progression
         const pct = tasks.length ? Math.round((completedCount / tasks.length) * 100) : 0;
         document.getElementById('progressBar').style.width = pct + "%";
         document.getElementById('statsText').innerText = pct + "% des tâches complétées";
