@@ -15,38 +15,38 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Gestion Connexion
+    // Connexion normale
     const loginBtn = document.getElementById('loginBtn');
-    const guestBtn = document.getElementById('guestBtn');
-
     if(loginBtn) loginBtn.addEventListener('click', () => {
-        const n = document.getElementById('loginNom').value.trim();
-        const p = document.getElementById('loginPrenom').value.trim();
-        const m = document.getElementById('loginMail').value.trim();
-        if(!n || !p || !m) return alert("Remplissez tout !");
-        localStorage.setItem('userNom', n + " " + p);
-        localStorage.setItem('userMail', m);
+        const nom = document.getElementById('loginNom').value.trim();
+        const prenom = document.getElementById('loginPrenom').value.trim();
+        const mail = document.getElementById('loginMail').value.trim();
+        if (!nom || !prenom || !mail) return alert("Remplissez tous les champs !");
+        
+        localStorage.setItem('userNom', `${nom} ${prenom}`);
+        localStorage.setItem('userMail', mail);
         location.reload();
     });
 
+    // Connexion invité
+    const guestBtn = document.getElementById('guestBtn');
     if(guestBtn) guestBtn.addEventListener('click', () => {
         localStorage.setItem('userNom', "Invité");
         localStorage.setItem('userMail', "guest");
         location.reload();
     });
 
-    // 2. Gestion Grille (Délégation)
+    // Gestion des actions de tâches via délégation
     const grid = document.getElementById('taskGrid');
-    if(grid) grid.addEventListener('click', async (e) => {
-        const id = e.target.getAttribute('data-id');
-        if(!id) return;
-        
-        if (e.target.classList.contains('btn-term')) await updateDoc(doc(db, "tasks", id), { status: 'termine' });
-        if (e.target.classList.contains('btn-suppr')) await deleteDoc(doc(db, "tasks", id));
+    if(grid) grid.addEventListener('click', (e) => {
+        const id = e.target.dataset.id;
+        if (!id) return;
+        if (e.target.classList.contains('btn-term')) updateDoc(doc(db, "tasks", id), { status: 'termine' });
+        if (e.target.classList.contains('btn-suppr')) deleteDoc(doc(db, "tasks", id));
     });
 
-    // 3. Charger App
-    if(localStorage.getItem('userMail')) showApp();
+    // Initialisation affichage
+    if (localStorage.getItem('userMail')) showApp();
 });
 
 function showApp() {
@@ -64,8 +64,8 @@ function loadTasks() {
             grid.innerHTML += `
                 <div class="card">
                     <h3>${d.data().text}</h3>
-                    <button class="btn-term" data-id="${d.id}">Terminé</button>
-                    <button class="btn-suppr" data-id="${d.id}">Supprimer</button>
+                    <button class="btn-term" data-id="${d.id}">✓</button>
+                    <button class="btn-suppr" data-id="${d.id}">X</button>
                 </div>`;
         });
     });
