@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, where, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDS6qeoE5mZ6vQbaEuY5mLG76CEhlyFyAc",
@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const addBtn = document.getElementById('addBtn');
     const fileInput = document.getElementById('fileInput');
     const avatarLabel = document.getElementById('avatarLabel');
+    const profileImg = document.getElementById('profileImg');
+
+    const userMail = localStorage.getItem('userMail');
 
     // --- CONNEXION ---
     if (loginBtn) {
@@ -39,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         guestBtn.addEventListener('click', () => {
             localStorage.setItem('userNom', "Invité");
             localStorage.setItem('userMail', "guest");
-            localStorage.removeItem('userAvatar'); // Reset PP pour l'invité
+            localStorage.removeItem('userAvatar');
             window.location.reload();
         });
     }
@@ -51,19 +54,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- PHOTO DE PROFIL ---
-    const userMail = localStorage.getItem('userMail');
+    // --- LOGIQUE PHOTO DE PROFIL ---
     if (userMail === "guest") {
+        // Bloque le clic pour les invités
+        avatarLabel.style.pointerEvents = "none";
         avatarLabel.style.cursor = "default";
-        fileInput.disabled = true;
     } else if (fileInput) {
+        // Autorise et gère l'upload pour les utilisateurs normaux
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     const base64Image = event.target.result;
-                    document.getElementById('profileImg').src = base64Image;
+                    // Mise à jour visuelle immédiate
+                    profileImg.src = base64Image;
+                    // Sauvegarde locale
                     localStorage.setItem('userAvatar', base64Image);
                 };
                 reader.readAsDataURL(file);
@@ -71,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- TACHES ---
+    // --- AJOUT TÂCHES ---
     if (addBtn) {
         addBtn.addEventListener('click', async () => {
             const input = document.getElementById('taskInput');
@@ -93,13 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('app').style.display = 'block';
         document.getElementById('userName').innerText = localStorage.getItem('userNom');
         
-        // Charger la photo
         const savedAvatar = localStorage.getItem('userAvatar');
-        const imgElement = document.getElementById('profileImg');
         if (userMail !== "guest" && savedAvatar) {
-            imgElement.src = savedAvatar;
+            profileImg.src = savedAvatar;
         } else {
-            imgElement.src = "icons/default-pp.png";
+            profileImg.src = "icons/default-pp.png";
         }
         
         loadTasks(userMail);
