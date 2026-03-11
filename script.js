@@ -1,80 +1,54 @@
-document.addEventListener('DOMContentLoaded', () => {
-    let tasks = JSON.parse(localStorage.getItem('dalyaTasks')) || [];
-    const catEmojis = { 'Cours': '📚', 'Perso': '🏠', 'Travail': '💼', 'Asso': '🤝' };
-    
-    // --- Gestion Profil ---
-    const profileImg = document.getElementById('profileImg');
-    const userName = document.getElementById('userName');
-    const userTitle = document.getElementById('userTitle');
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-    // Charger les données sauvegardées
-    if (localStorage.getItem('userAvatar')) profileImg.src = localStorage.getItem('userAvatar');
-    if (localStorage.getItem('userName')) userName.innerText = localStorage.getItem('userName');
-    if (localStorage.getItem('userTitle')) userTitle.innerText = localStorage.getItem('userTitle');
+const firebaseConfig = {
+    apiKey: "AIzaSyDS6qeoE5mZ6vQbaEuY5mLG76CEhlyFyAc",
+    authDomain: "projet-site-web-portfolio.firebaseapp.com",
+    projectId: "projet-site-web-portfolio",
+    storageBucket: "projet-site-web-portfolio.firebasestorage.app",
+    messagingSenderId: "646439541766",
+    appId: "1:646439541766:web:610bca11a9c95767a7b787",
+    measurementId: "G-34K5W24YCK"
+};
 
-    // Sauvegarder les modifs au clic en dehors du champ
-    [userName, userTitle].forEach(el => {
-        el.addEventListener('blur', () => {
-            localStorage.setItem('userName', userName.innerText);
-            localStorage.setItem('userTitle', userTitle.innerText);
-        });
-    });
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    document.getElementById('fileInput').addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                profileImg.src = event.target.result;
-                localStorage.setItem('userAvatar', event.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+// Variables globales
+let tasks = [];
+const loginPage = document.getElementById('loginPage');
+const appDiv = document.getElementById('app');
 
-    // --- Gestion Tâches ---
-    function render() {
-        const taskGrid = document.getElementById('taskGrid');
-        taskGrid.innerHTML = "";
-        
-        let completed = tasks.filter(t => t.status === 'termine').length;
-        const percent = tasks.length ? Math.round((completed / tasks.length) * 100) : 0;
-        document.getElementById('progressBar').style.width = percent + "%";
-        document.getElementById('statsText').innerText = `${percent}% des tâches complétées`;
+// Vérification session
+if (localStorage.getItem('userMail')) showApp();
 
-        tasks.forEach(t => {
-            const card = document.createElement('div');
-            card.className = `card ${t.status}`;
-            card.innerHTML = `
-                <h3>${catEmojis[t.category] || ''} ${t.text}</h3>
-                <button class="btn-encours" onclick="update(${t.id}, 'encours')">En cours</button>
-                <button class="btn-termine" onclick="update(${t.id}, 'termine')">Terminé</button>
-                <button class="btn-attente" onclick="update(${t.id}, 'attente')">En attente</button>
-                <button class="btn-supprimer" onclick="supprimer(${t.id})">Supprimer</button>
-            `;
-            taskGrid.appendChild(card);
-        });
-        localStorage.setItem('dalyaTasks', JSON.stringify(tasks));
+document.getElementById('loginBtn').onclick = () => {
+    const nom = document.getElementById('loginNom').value;
+    const prenom = document.getElementById('loginPrenom').value;
+    const mail = document.getElementById('loginMail').value;
+    if (nom && prenom && mail) {
+        localStorage.setItem('userMail', mail);
+        localStorage.setItem('userNom', `${nom} ${prenom}`);
+        showApp();
     }
+};
 
-    window.update = (id, status) => {
-        tasks = tasks.map(t => t.id === id ? {...t, status} : t);
+function showApp() {
+    loginPage.style.display = 'none';
+    appDiv.style.display = 'block';
+    document.getElementById('userName').innerText = localStorage.getItem('userNom');
+    loadTasks();
+}
+
+function loadTasks() {
+    const q = query(collection(db, "tasks"), where("user", "==", localStorage.getItem('userMail')));
+    onSnapshot(q, (snapshot) => {
+        tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         render();
-    };
+    });
+}
 
-    window.supprimer = (id) => {
-        tasks = tasks.filter(t => t.id !== id);
-        render();
-    };
+// ... Tes fonctions render, update (avec updateDoc), supprimer (avec deleteDoc) et addTask (avec addDoc) ...
+// (N'oublie pas d'utiliser les fonctions Firebase importées en haut !)
 
-    document.getElementById('addBtn').onclick = () => {
-        const input = document.getElementById('taskInput');
-        const cat = document.getElementById('taskCategory');
-        if(input.value) {
-            tasks.push({id: Date.now(), text: input.value, category: cat.value, status: 'encours'});
-            input.value = "";
-            render();
-        }
-    };
-    render();
-});
+document.getElementById('logoutBtn').onclick = () => { localStorage.clear(); location.reload(); };

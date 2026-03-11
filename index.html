@@ -3,20 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Dalya Meharzi</title>
+    <title>Dashboard | Cloud</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main-wrapper">
+    <div id="loginPage" class="login-wrapper">
+        <div class="card">
+            <h1>Bienvenue</h1>
+            <input type="text" id="loginNom" placeholder="Nom">
+            <input type="text" id="loginPrenom" placeholder="Prénom">
+            <input type="email" id="loginMail" placeholder="Email">
+            <button id="loginBtn">Se connecter</button>
+        </div>
+    </div>
+
+    <div id="app" class="main-wrapper" style="display: none;">
         <header class="profile-card">
             <label for="fileInput" class="image-upload">
                 <img src="medias/Photodeprofil.png" alt="Profil" class="profile-img" id="profileImg">
             </label>
             <input type="file" id="fileInput" accept="image/*" style="display: none;">
-            
             <div class="profile-info">
-                <h1 id="userName" contenteditable="true">MEHARZI Dalya</h1>
-                <p id="userTitle" contenteditable="true">Dashboard de Productivité</p>
+                <h1 id="userName">Nom Prénom</h1>
+                <p id="userTitle" contenteditable="true">Cliquez pour modifier votre titre</p>
+                <button id="logoutBtn" style="background: #da3633; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">Déconnexion</button>
             </div>
         </header>
 
@@ -31,7 +41,7 @@
                 <option value="Cours">📚 Cours</option>
                 <option value="Perso">🏠 Perso</option>
                 <option value="Travail">💼 Travail</option>
-                <option value="Asso">🚒 Asso</option>
+                <option value="Asso">🤝 Asso</option>
             </select>
             <button id="addBtn">Ajouter</button>
         </section>
@@ -40,6 +50,6 @@
     </div>
 
     <footer>Code et design Dalya MEHARZI © 2026</footer>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
