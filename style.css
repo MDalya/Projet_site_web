@@ -1,11 +1,17 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* Palette Dark Mode type GitHub */
-body { border: 5px solid red !important; }
+/* Dark Mode GitHub Style */
+body { 
+    background-color: #0d1117; 
+    color: #c9d1d9; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; 
+    min-height: 100vh; 
+}
+
 .main-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
 .container { width: 1070px; margin: 20px auto; flex: 1; }
 
-/* Conteneurs avec bordures fines et fond gris foncé */
+/* Conteneurs */
 .profile-card, .stats-box, .task-form, .card { 
     background-color: #161b22; 
     border: 1px solid #30363d;
