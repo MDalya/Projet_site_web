@@ -56,20 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LOGIQUE PHOTO DE PROFIL ---
     if (userMail === "guest") {
-        // Bloque le clic pour les invités
-        avatarLabel.style.pointerEvents = "none";
-        avatarLabel.style.cursor = "default";
+        // Désactive le mode cliquable visuellement et physiquement pour l'invité
+        if (avatarLabel) {
+            avatarLabel.style.cursor = "default";
+            avatarLabel.style.pointerEvents = "none";
+        }
     } else if (fileInput) {
-        // Autorise et gère l'upload pour les utilisateurs normaux
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     const base64Image = event.target.result;
-                    // Mise à jour visuelle immédiate
                     profileImg.src = base64Image;
-                    // Sauvegarde locale
                     localStorage.setItem('userAvatar', base64Image);
                 };
                 reader.readAsDataURL(file);
