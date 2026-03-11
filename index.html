@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Dashboard | Productivité</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,11 +19,33 @@
     </div>
 
     <div id="app" class="main-wrapper" style="display: none;">
-        <h1 id="userName"></h1>
-        <button id="logoutBtn">Déconnexion</button>
-        <div id="taskGrid"></div>
+        <header class="profile-card">
+            <label for="fileInput" class="image-upload">
+                <img src="medias/default-avatar.png" alt="Profil" class="profile-img" id="profileImg">
+            </label>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            <div class="profile-info">
+                <h1 id="userName"></h1>
+                <p id="userTitle" contenteditable="true">Ma Productivité</p>
+                <button id="logoutBtn" class="btn-supprimer">Déconnexion</button>
+            </div>
+        </header>
+
+        <section class="task-form">
+            <input type="text" id="taskInput" placeholder="Quelle est la mission ?">
+            <select id="taskCategory">
+                <option value="Cours">📚 Cours</option>
+                <option value="Perso">🏠 Perso</option>
+                <option value="Travail">💼 Travail</option>
+                <option value="Asso">🤝 Asso</option>
+            </select>
+            <button id="addBtn">Ajouter</button>
+        </section>
+
+        <main class="grid-container" id="taskGrid"></main>
     </div>
 
+    <footer>Code et design Dalya MEHARZI © 2026</footer>
     <script type="module" src="script.js"></script>
 </body>
 </html>
