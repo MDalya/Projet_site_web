@@ -14,28 +14,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Variables globales
-let tasks = [];
-const loginPage = document.getElementById('loginPage');
-const appDiv = document.getElementById('app');
-
-// Vérification session
-if (localStorage.getItem('userMail')) showApp();
+// --- Logique Dashboard ---
+const userMail = localStorage.getItem('userMail');
+if (userMail) showApp();
 
 document.getElementById('loginBtn').onclick = () => {
-    const nom = document.getElementById('loginNom').value;
-    const prenom = document.getElementById('loginPrenom').value;
-    const mail = document.getElementById('loginMail').value;
-    if (nom && prenom && mail) {
-        localStorage.setItem('userMail', mail);
-        localStorage.setItem('userNom', `${nom} ${prenom}`);
-        showApp();
-    }
+    localStorage.setItem('userMail', document.getElementById('loginMail').value);
+    localStorage.setItem('userNom', document.getElementById('loginNom').value);
+    showApp();
 };
 
 function showApp() {
-    loginPage.style.display = 'none';
-    appDiv.style.display = 'block';
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
     document.getElementById('userName').innerText = localStorage.getItem('userNom');
     loadTasks();
 }
@@ -43,12 +34,23 @@ function showApp() {
 function loadTasks() {
     const q = query(collection(db, "tasks"), where("user", "==", localStorage.getItem('userMail')));
     onSnapshot(q, (snapshot) => {
-        tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        render();
+        const taskGrid = document.getElementById('taskGrid');
+        taskGrid.innerHTML = "";
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const card = document.createElement('div');
+            card.className = "card";
+            card.innerHTML = `<h3>${data.text}</h3><button onclick="supprimer('${doc.id}')">Supprimer</button>`;
+            taskGrid.appendChild(card);
+        });
     });
 }
 
-// ... Tes fonctions render, update (avec updateDoc), supprimer (avec deleteDoc) et addTask (avec addDoc) ...
-// (N'oublie pas d'utiliser les fonctions Firebase importées en haut !)
+document.getElementById('addBtn').onclick = async () => {
+    const text = document.getElementById('taskInput').value;
+    await addDoc(collection(db, "tasks"), { text, user: localStorage.getItem('userMail') });
+};
+
+window.supprimer = async (id) => { await deleteDoc(doc(db, "tasks", id)); };
 
 document.getElementById('logoutBtn').onclick = () => { localStorage.clear(); location.reload(); };
