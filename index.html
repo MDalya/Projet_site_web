@@ -2,116 +2,102 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Demo 1 - TP1 Front End</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dalya Dashboard - Productivité</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
+    
     <div class="profile-card">
       <div class="pdp">
-        <img src="medias/Photodeprofil.png" class="profile-img" alt="Profile Picture">
+        <img src="medias/Photodeprofil.png" class="profile-img" alt="Profile Picture" onerror="this.src='https://ui-avatars.com/api/?name=Dalya+Meharzi&background=6c5ce7&color=fff'">
       </div>
       <div class="profile-info">
-        <div class="nom">MEHARZI Dalya IR3</div>
+        <div class="nom">Dalya Meharzi</div>
         <div class="infos">
-          <span>
-            <img src="icons/icons8-téléphone-50.png" class="icon" alt="Phone Icon">
-            OPPO A73
-          </span>
-          <span>
-            <img src="icons/icons8-tic-tac-32.png" class="icon" alt="Timer Icon">
-            Max2022
-          </span>
-          <span>
-            <img src="icons/icons8-facebook-nouveau-50.png" class="icon" alt="Facebook Icon">
-            MaxSM
-          </span>
+          <span><img src="icons/icons8-téléphone-50.png" class="icon" alt="Phone"> Focus Mode</span>
+          <span><img src="icons/icons8-tic-tac-32.png" class="icon" alt="Timer"> Objectifs 2026</span>
         </div>
       </div>
     </div>
-    <div class="grid-container">
+
+    <div class="task-form">
+        <input type="text" id="taskInput" placeholder="Quelle est la mission du jour ?">
+        <select id="taskCategory">
+            <option value="Cours">📚 Cours</option>
+            <option value="Perso">🏠 Perso</option>
+            <option value="Travail">💼 Travail</option>
+            <option value="Projet">🚀 Projet</option>
+        </select>
+        <button onclick="addTask()" class="add-btn">Ajouter</button>
+    </div>
+
+    <div class="grid-container" id="taskGrid">
       <div class="card">
         <div class="card-image">
-          <img src="medias/image1-2.png" alt="Enquête QVT Image">
+          <img src="https://ui-avatars.com/api/?name=Projet&background=e2f1f3&color=7bcbc7" alt="Icon">
         </div>
         <div class="card-content">
-          <h3>Enquête QVT</h3>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          <small>Projet</small>
+          <h3>Finaliser le déploiement GitHub</h3>
           <div class="card-buttons">
-            <button class="green">Lancement</button>
-            <button class="blue">Resultat</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-image">
-          <img src="medias/image1-2.png" alt="Enquête RPS Image">
-        </div>
-        <div class="card-content">
-          <h3>Enquête RPS</h3>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-          <div class="card-buttons">
-            <button class="green">Lancement</button>
-            <button class="blue">Resultat</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-image">
-          <img src="medias/image3.png" alt="Enquête Personnalisable Image">
-        </div>
-        <div class="card-content">
-          <h3>Enquête Personnalisable</h3>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-          <div class="card-buttons">
-            <button class="green">Lancement</button>
-            <button class="blue">Resultat</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-image">
-          <img src="medias/image4.png" alt="Analyse Messagerie Image">
-        </div>
-        <div class="card-content">
-          <h3>Analyse Messagerie</h3>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-          <div class="card-buttons">
-            <button class="green">Analyse</button>
-            <button class="blue">Rapport</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-image">
-          <img src="medias/image5.png" alt="Vue d'Entreprise Image">
-        </div>
-        <div class="card-content">
-          <h3>Vue d'Entreprise</h3>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-          <div class="card-buttons">
-            <button class="green">Tableau de bord</button>
-            <button class="blue">Rapport</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-image">
-          <img src="medias/image6.png" alt="Portail Déclaratif Image">
-        </div>
-        <div class="card-content">
-          <h3>Portail Déclaratif</h3>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-          <div class="card-buttons">
-            <button class="green">Resultat</button>
-            <button class="blue">Guide</button>
+            <button class="green" onclick="completeTask(this)">✅ Terminé</button>
+            <button class="blue" onclick="deleteTask(this)">🗑️ Supprimer</button>
           </div>
         </div>
       </div>
     </div>
+
   </div>
+
   <footer>
-    <p>About · Team · Contact · 2022 © Keenthemes</p>
+    <p>Maîtrise ton temps · 2026 © Dalya Meharzi</p>
   </footer>
+
+  <script>
+    function addTask() {
+        const input = document.getElementById('taskInput');
+        const category = document.getElementById('taskCategory');
+        const grid = document.getElementById('taskGrid');
+
+        if (input.value.trim() === "") {
+            alert("Oups ! Tu as oublié d'écrire la tâche.");
+            return;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <div class="card-image">
+                <img src="https://ui-avatars.com/api/?name=${category.value}&background=random" alt="icon">
+            </div>
+            <div class="card-content">
+                <small>${category.value}</small>
+                <h3>${input.value}</h3>
+                <div class="card-buttons">
+                    <button class="green" onclick="completeTask(this)">✅ Terminé</button>
+                    <button class="blue" onclick="deleteTask(this)">🗑️ Supprimer</button>
+                </div>
+            </div>
+        `;
+
+        grid.prepend(card);
+        input.value = "";
+    }
+
+    function completeTask(btn) {
+        const card = btn.closest('.card');
+        card.classList.toggle('is-completed');
+        btn.innerText = card.classList.contains('is-completed') ? "Refaire" : "✅ Terminé";
+    }
+
+    function deleteTask(btn) {
+        const card = btn.closest('.card');
+        card.style.transform = "scale(0.8)";
+        card.style.opacity = "0";
+        setTimeout(() => card.remove(), 300);
+    }
+  </script>
 </body>
 </html>
