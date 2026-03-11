@@ -3,6 +3,8 @@ body { background-color: #0d1117; color: #c9d1d9; font-family: sans-serif; min-h
 .main-wrapper { flex: 1; width: 90%; max-width: 1070px; margin: 20px auto; }
 
 .profile-card { display: flex; align-items: center; gap: 20px; background: #161b22; padding: 20px; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px; }
+.image-upload { cursor: pointer; transition: opacity 0.3s; }
+.image-upload:hover { opacity: 0.7; }
 .profile-img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
 
 .stats-box, .task-form, .card { background: #161b22; padding: 20px; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px; }

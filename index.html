@@ -9,7 +9,11 @@
 <body>
     <div class="main-wrapper">
         <header class="profile-card">
-            <img src="medias/Photodeprofil.png" alt="Profil" class="profile-img">
+            <label for="fileInput" class="image-upload">
+                <img src="medias/Photodeprofil.png" alt="Profil" class="profile-img" id="profileImg">
+            </label>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            
             <div class="profile-info">
                 <h1>MEHARZI Dalya</h1>
                 <p>Dashboard de Productivité</p>
@@ -24,10 +28,10 @@
         <section class="task-form">
             <input type="text" id="taskInput" placeholder="Quelle est la mission ?">
             <select id="taskCategory">
-                <option value="Cours">Cours</option>
-                <option value="Perso">Perso</option>
-                <option value="Travail">Travail</option>
-                <option value="Asso">Asso</option>
+                <option value="Cours">📚 Cours</option>
+                <option value="Perso">🏠 Perso</option>
+                <option value="Travail">💼 Travail</option>
+                <option value="Asso">🤝 Asso</option>
             </select>
             <button id="addBtn">Ajouter</button>
         </section>
