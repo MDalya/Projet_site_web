@@ -1,12 +1,24 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-const firebaseConfig = { /* TON CONFIG ICI */ };
+// --- CONFIGURATION FIREBASE ---
+const firebaseConfig = {
+    apiKey: "AIzaSyDS6qeoE5mZ6vQbaEuY5mLG76CEhlyFyAc",
+    authDomain: "projet-site-web-portfolio.firebaseapp.com",
+    projectId: "projet-site-web-portfolio",
+    storageBucket: "projet-site-web-portfolio.firebasestorage.app",
+    messagingSenderId: "646439541766",
+    appId: "1:646439541766:web:610bca11a9c95767a7b787",
+    measurementId: "G-34K5W24YCK"
+};
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// --- LOGIQUE APPLICATION ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Connexion
+    
+    // Boutons Connexion / Invité
     document.getElementById('loginBtn').addEventListener('click', () => {
         localStorage.setItem('userNom', `${document.getElementById('loginNom').value} ${document.getElementById('loginPrenom').value}`);
         localStorage.setItem('userMail', document.getElementById('loginMail').value);
@@ -19,19 +31,34 @@ document.addEventListener('DOMContentLoaded', () => {
         showApp();
     });
 
+    // Ajout Tâche
     document.getElementById('addBtn').addEventListener('click', () => {
-        addDoc(collection(db, "tasks"), { text: document.getElementById('taskInput').value, category: document.getElementById('taskCategory').value, user: localStorage.getItem('userMail'), status: 'indetermine' });
+        const input = document.getElementById('taskInput');
+        if(input.value) {
+            addDoc(collection(db, "tasks"), { 
+                text: input.value, 
+                category: document.getElementById('taskCategory').value, 
+                user: localStorage.getItem('userMail'), 
+                status: 'indetermine' 
+            });
+            input.value = "";
+        }
     });
 
-    document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.clear(); location.reload(); });
+    // Déconnexion
+    document.getElementById('logoutBtn').addEventListener('click', () => { 
+        localStorage.clear(); 
+        location.reload(); 
+    });
 
-    // Délégation d'événements pour les boutons dynamiques
+    // Gestion boutons de tâches (Délégation d'événements)
     document.getElementById('taskGrid').addEventListener('click', (e) => {
         const id = e.target.dataset.id;
+        if (!id) return;
         if (e.target.classList.contains('btn-term')) updateDoc(doc(db, "tasks", id), { status: 'termine' });
-        if (e.target.classList.contains('btn-encours')) updateDoc(doc(db, "tasks", id), { status: 'encours' });
-        if (e.target.classList.contains('btn-indet')) updateDoc(doc(db, "tasks", id), { status: 'indetermine' });
-        if (e.target.classList.contains('btn-supprimer')) deleteDoc(doc(db, "tasks", id));
+        else if (e.target.classList.contains('btn-encours')) updateDoc(doc(db, "tasks", id), { status: 'encours' });
+        else if (e.target.classList.contains('btn-indet')) updateDoc(doc(db, "tasks", id), { status: 'indetermine' });
+        else if (e.target.classList.contains('btn-supprimer')) deleteDoc(doc(db, "tasks", id));
     });
 
     if (localStorage.getItem('userMail')) showApp();
