@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="card-category">${task.category}</span>
                 <h3>${task.text}</h3>
                 <div class="card-buttons">
-                    <button class="btn-task complete" onclick="toggleTask(${task.id})">${task.completed ? '🔄' : '✅'} Fait</button>
-                    <button class="btn-task delete" onclick="deleteTask(${task.id})">🗑️ Suppr</button>
+                    <button class="btn-task" onclick="toggleTask(${task.id})">${task.completed ? '🔄' : '✅'} Fait</button>
+                    <button class="btn-task" onclick="deleteTask(${task.id})">🗑️ Suppr</button>
                 </div>
             `;
             taskGrid.appendChild(card);
