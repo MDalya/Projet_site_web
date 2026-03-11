@@ -1,10 +1,4 @@
-/* RESET ET BASES */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-    font-family: 'Segoe UI', system-ui, sans-serif; 
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
 body { 
     background-color: #0d1117; 
@@ -14,146 +8,31 @@ body {
     flex-direction: column; 
 }
 
-/* PAGE DE CONNEXION */
-.login-wrapper { 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    flex-grow: 1; 
-}
-
-.login-card { 
-    background: #161b22; 
-    padding: 40px; 
-    border-radius: 12px; 
-    border: 1px solid #30363d; 
-    width: 350px; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 15px; 
-    text-align: center;
-}
-
-.login-card input { 
-    padding: 12px; 
-    border-radius: 6px; 
-    border: 1px solid #30363d; 
-    background: #0d1117; 
-    color: white; 
-}
-
-.login-card button { 
-    padding: 12px; 
-    background: #238636; 
-    color: white; 
-    border: none; 
-    border-radius: 6px; 
-    cursor: pointer; 
-    font-weight: bold; 
-}
-
+.login-wrapper { display: flex; justify-content: center; align-items: center; flex-grow: 1; }
+.login-card { background: #161b22; padding: 40px; border-radius: 12px; border: 1px solid #30363d; width: 350px; display: flex; flex-direction: column; gap: 15px; text-align: center; }
+.login-card input { padding: 12px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: white; }
+.login-card button { padding: 12px; background: #238636; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
 .btn-guest { background: #30363d !important; }
 
-/* APPLICATION PRINCIPALE */
-.main-wrapper { 
-    width: 100%; 
-    max-width: 900px; 
-    margin: 0 auto; 
-    padding: 40px 20px; 
-}
+.main-wrapper { width: 100%; max-width: 900px; margin: 0 auto; padding: 40px 20px; flex-grow: 1; }
 
-/* HEADER / PROFIL */
-.profile-card { 
-    background: #161b22; 
-    border: 1px solid #30363d; 
-    border-radius: 12px; 
-    padding: 25px; 
-    margin-bottom: 30px; 
-}
+/* PROFIL */
+.profile-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 25px; margin-bottom: 30px; }
+.profile-layout { display: flex; align-items: center; gap: 20px; }
+.avatar-label { cursor: pointer; transition: 0.2s; }
+.avatar-label:hover .profile-img { filter: brightness(0.7); border-color: #2f81f7; }
+.profile-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #30363d; }
+.btn-supprimer-link { background: none; border: none; color: #f85149; cursor: pointer; text-decoration: underline; font-size: 14px; }
 
-.profile-layout { 
-    display: flex; 
-    align-items: center; 
-    gap: 20px; 
-}
-
-/* Photo de profil interactive */
-.avatar-label { 
-    display: block; 
-    cursor: pointer; 
-    transition: transform 0.2s; 
-}
-
-.avatar-label:hover .profile-img {
-    filter: brightness(0.7);
-    border-color: #2f81f7;
-}
-
-.profile-img { 
-    width: 80px; 
-    height: 80px; 
-    border-radius: 50%; 
-    object-fit: cover; 
-    border: 2px solid #30363d; 
-    transition: all 0.2s;
-}
-
-.profile-info h1 { font-size: 24px; color: white; }
-.btn-supprimer-link { 
-    background: none; 
-    border: none; 
-    color: #f85149; 
-    cursor: pointer; 
-    padding: 0; 
-    font-size: 14px; 
-    text-decoration: underline; 
-}
-
-/* FORMULAIRE TACHES */
-.task-form { 
-    display: flex; 
-    gap: 10px; 
-    margin-bottom: 30px; 
-}
-
-.task-form input, .task-form select { 
-    padding: 12px; 
-    border-radius: 6px; 
-    border: 1px solid #30363d; 
-    background: #161b22; 
-    color: white; 
-}
-
+/* FORM TACHES */
+.task-form { display: flex; gap: 10px; margin-bottom: 30px; }
+.task-form input, .task-form select { padding: 12px; border-radius: 6px; border: 1px solid #30363d; background: #161b22; color: white; }
 .task-form input { flex-grow: 1; }
+.task-form button { padding: 0 25px; background: #2f81f7; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
 
-.task-form button { 
-    padding: 0 25px; 
-    background: #2f81f7; 
-    color: white; 
-    border: none; 
-    border-radius: 6px; 
-    cursor: pointer; 
-    font-weight: bold; 
-}
+/* GRILLE ET CARTES */
+.grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+.card { background: #161b22; border: 1px solid #30363d; padding: 15px; border-radius: 8px; transition: 0.3s; }
+.card h3 { font-size: 16px; margin-bottom: 10px; }
 
-/* GRILLE DE TACHES */
-.grid-container { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-    gap: 15px; 
-}
-
-.card { 
-    background: #161b22; 
-    border: 1px solid #30363d; 
-    padding: 15px; 
-    border-radius: 8px; 
-    border-left: 5px solid #8250df;
-}
-
-footer { 
-    text-align: center; 
-    padding: 40px; 
-    color: #8b949e; 
-    font-size: 12px; 
-}
+footer { text-align: center; padding: 20px; color: #8b949e; font-size: 12px; border-top: 1px solid #30363d; margin-top: auto; }
