@@ -31,16 +31,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = `card ${task.completed ? 'is-completed' : ''}`;
             card.innerHTML = `
-                <div class="card-image">
-                    <img src="https://ui-avatars.com/api/?name=${task.category}&background=random" alt="cat">
-                </div>
+                <span class="card-category">${task.category}</span>
+                
                 <div class="card-content">
-                    <small>${task.category}</small>
                     <h3>${task.text}</h3>
-                    <div class="card-buttons">
-                        <button class="green" onclick="toggleTask(${task.id})">${task.completed ? '🔄 Refaire' : '✅ Terminé'}</button>
-                        <button class="blue" onclick="deleteTask(${task.id})">🗑️ Supprimer</button>
-                    </div>
+                </div>
+
+                <div class="card-buttons">
+                    <button class="btn-task complete" onclick="toggleTask(${task.id})">
+                        ${task.completed ? '🔄 Refaire' : '✅ Fait'}
+                    </button>
+                    <button class="btn-task delete" onclick="deleteTask(${task.id})">
+                        🗑️ Supprimer
+                    </button>
                 </div>
             `;
             taskGrid.appendChild(card);

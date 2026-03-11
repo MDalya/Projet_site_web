@@ -3,34 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dalya | Dashboard Productivité</title>
+    <title>Dalya Meharzi | Focus Flow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         
-        <header class="profile-card">
-            <div class="pdp">
-                <img src="medias/Photodeprofil.png" class="profile-img" alt="Profile" onerror="this.src='https://ui-avatars.com/api/?name=Dalya+Meharzi&background=6c5ce7&color=fff'">
-            </div>
-            <div class="profile-info">
-                <h1 class="nom">Dalya Meharzi</h1>
-                <div class="infos">
-                    <span><img src="icons/icons8-téléphone-50.png" class="icon" alt="Focus"> Focus Mode</span>
-                    <span><img src="icons/icons8-tic-tac-32.png" class="icon" alt="Timer"> Objectifs 2026</span>
+        <header class="app-header">
+            <div class="profile-compact">
+                <img src="medias/Photodeprofil.png" class="profile-img" alt="Profile" onerror="this.src='https://ui-avatars.com/api/?name=DM&background=1ABC9C&color=fff'">
+                <div class="profile-text">
+                    <h1>Dalya Meharzi</h1>
+                    <p>Focus Flow Dashboard</p>
                 </div>
+            </div>
+            <div class="header-status">
+                <span class="status-badge"><img src="icons/icons8-tic-tac-32.png" class="icon" alt="Timer"> Objectifs 2026</span>
             </div>
         </header>
 
-        <section class="task-form">
-            <input type="text" id="taskInput" placeholder="Nouvelle mission...">
-            <select id="taskCategory">
-                <option value="Cours">📚 Cours</option>
-                <option value="Perso">🏠 Perso</option>
-                <option value="Travail">💼 Travail</option>
-                <option value="Projet">🚀 Projet</option>
-            </select>
-            <button id="addBtn" class="add-btn">Ajouter</button>
+        <section class="task-form-container">
+            <div class="task-form">
+                <input type="text" id="taskInput" placeholder="Quelle est la prochaine mission ?">
+                <select id="taskCategory">
+                    <option value="Cours">📚 Cours</option>
+                    <option value="Perso">🏠 Perso</option>
+                    <option value="Travail">💼 Travail</option>
+                    <option value="Projet">🚀 Projet</option>
+                </select>
+                <button id="addBtn" class="add-btn">+</button>
+            </div>
         </section>
 
         <main class="grid-container" id="taskGrid">
@@ -39,7 +42,7 @@
     </div>
 
     <footer>
-        <p>Maîtrise ton temps · 2026 © Dalya Meharzi</p>
+        <p>Design & Code by Dalya Meharzi · 2026 ©</p>
     </footer>
 
     <script src="script.js"></script>
