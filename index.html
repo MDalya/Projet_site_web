@@ -1,103 +1,47 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dalya Dashboard - Productivité</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dalya | Dashboard Productivité</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    
-    <div class="profile-card">
-      <div class="pdp">
-        <img src="medias/Photodeprofil.png" class="profile-img" alt="Profile Picture" onerror="this.src='https://ui-avatars.com/api/?name=Dalya+Meharzi&background=6c5ce7&color=fff'">
-      </div>
-      <div class="profile-info">
-        <div class="nom">Dalya Meharzi</div>
-        <div class="infos">
-          <span><img src="icons/icons8-téléphone-50.png" class="icon" alt="Phone"> Focus Mode</span>
-          <span><img src="icons/icons8-tic-tac-32.png" class="icon" alt="Timer"> Objectifs 2026</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="task-form">
-        <input type="text" id="taskInput" placeholder="Quelle est la mission du jour ?">
-        <select id="taskCategory">
-            <option value="Cours">📚 Cours</option>
-            <option value="Perso">🏠 Perso</option>
-            <option value="Travail">💼 Travail</option>
-            <option value="Projet">🚀 Projet</option>
-        </select>
-        <button onclick="addTask()" class="add-btn">Ajouter</button>
-    </div>
-
-    <div class="grid-container" id="taskGrid">
-      <div class="card">
-        <div class="card-image">
-          <img src="https://ui-avatars.com/api/?name=Projet&background=e2f1f3&color=7bcbc7" alt="Icon">
-        </div>
-        <div class="card-content">
-          <small>Projet</small>
-          <h3>Finaliser le déploiement GitHub</h3>
-          <div class="card-buttons">
-            <button class="green" onclick="completeTask(this)">✅ Terminé</button>
-            <button class="blue" onclick="deleteTask(this)">🗑️ Supprimer</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <footer>
-    <p>Maîtrise ton temps · 2026 © Dalya Meharzi</p>
-  </footer>
-
-  <script>
-    function addTask() {
-        const input = document.getElementById('taskInput');
-        const category = document.getElementById('taskCategory');
-        const grid = document.getElementById('taskGrid');
-
-        if (input.value.trim() === "") {
-            alert("Oups ! Tu as oublié d'écrire la tâche.");
-            return;
-        }
-
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-            <div class="card-image">
-                <img src="https://ui-avatars.com/api/?name=${category.value}&background=random" alt="icon">
+    <div class="container">
+        
+        <header class="profile-card">
+            <div class="pdp">
+                <img src="medias/Photodeprofil.png" class="profile-img" alt="Profile" onerror="this.src='https://ui-avatars.com/api/?name=Dalya+Meharzi&background=6c5ce7&color=fff'">
             </div>
-            <div class="card-content">
-                <small>${category.value}</small>
-                <h3>${input.value}</h3>
-                <div class="card-buttons">
-                    <button class="green" onclick="completeTask(this)">✅ Terminé</button>
-                    <button class="blue" onclick="deleteTask(this)">🗑️ Supprimer</button>
+            <div class="profile-info">
+                <h1 class="nom">Dalya Meharzi</h1>
+                <div class="infos">
+                    <span><img src="icons/icons8-téléphone-50.png" class="icon" alt="Focus"> Focus Mode</span>
+                    <span><img src="icons/icons8-tic-tac-32.png" class="icon" alt="Timer"> Objectifs 2026</span>
                 </div>
             </div>
-        `;
+        </header>
 
-        grid.prepend(card);
-        input.value = "";
-    }
+        <section class="task-form">
+            <input type="text" id="taskInput" placeholder="Nouvelle mission...">
+            <select id="taskCategory">
+                <option value="Cours">📚 Cours</option>
+                <option value="Perso">🏠 Perso</option>
+                <option value="Travail">💼 Travail</option>
+                <option value="Projet">🚀 Projet</option>
+            </select>
+            <button id="addBtn" class="add-btn">Ajouter</button>
+        </section>
 
-    function completeTask(btn) {
-        const card = btn.closest('.card');
-        card.classList.toggle('is-completed');
-        btn.innerText = card.classList.contains('is-completed') ? "Refaire" : "✅ Terminé";
-    }
+        <main class="grid-container" id="taskGrid">
+            </main>
 
-    function deleteTask(btn) {
-        const card = btn.closest('.card');
-        card.style.transform = "scale(0.8)";
-        card.style.opacity = "0";
-        setTimeout(() => card.remove(), 300);
-    }
-  </script>
+    </div>
+
+    <footer>
+        <p>Maîtrise ton temps · 2026 © Dalya Meharzi</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
