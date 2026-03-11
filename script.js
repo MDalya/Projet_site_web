@@ -15,58 +15,32 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Connexion normale
+    // 1. Boutons de connexion
     const loginBtn = document.getElementById('loginBtn');
-    if(loginBtn) loginBtn.addEventListener('click', () => {
+    const guestBtn = document.getElementById('guestBtn');
+    
+    if (loginBtn) loginBtn.addEventListener('click', () => {
         const nom = document.getElementById('loginNom').value.trim();
         const prenom = document.getElementById('loginPrenom').value.trim();
         const mail = document.getElementById('loginMail').value.trim();
-        if (!nom || !prenom || !mail) return alert("Remplissez tous les champs !");
         
-        localStorage.setItem('userNom', `${nom} ${prenom}`);
+        if (!nom || !prenom || !mail) return alert("Remplissez tout !");
+        
+        localStorage.setItem('userNom', nom + " " + prenom);
         localStorage.setItem('userMail', mail);
         location.reload();
     });
 
-    // Connexion invité
-    const guestBtn = document.getElementById('guestBtn');
-    if(guestBtn) guestBtn.addEventListener('click', () => {
+    if (guestBtn) guestBtn.addEventListener('click', () => {
         localStorage.setItem('userNom', "Invité");
         localStorage.setItem('userMail', "guest");
         location.reload();
     });
 
-    // Gestion des actions de tâches via délégation
-    const grid = document.getElementById('taskGrid');
-    if(grid) grid.addEventListener('click', (e) => {
-        const id = e.target.dataset.id;
-        if (!id) return;
-        if (e.target.classList.contains('btn-term')) updateDoc(doc(db, "tasks", id), { status: 'termine' });
-        if (e.target.classList.contains('btn-suppr')) deleteDoc(doc(db, "tasks", id));
-    });
-
-    // Initialisation affichage
-    if (localStorage.getItem('userMail')) showApp();
+    // 2. Affichage
+    if (localStorage.getItem('userMail')) {
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        document.getElementById('userName').innerText = localStorage.getItem('userNom');
+    }
 });
-
-function showApp() {
-    document.getElementById('loginPage').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    document.getElementById('userName').innerText = localStorage.getItem('userNom');
-    loadTasks();
-}
-
-function loadTasks() {
-    onSnapshot(query(collection(db, "tasks"), where("user", "==", localStorage.getItem('userMail'))), (snapshot) => {
-        const grid = document.getElementById('taskGrid');
-        grid.innerHTML = "";
-        snapshot.forEach(d => {
-            grid.innerHTML += `
-                <div class="card">
-                    <h3>${d.data().text}</h3>
-                    <button class="btn-term" data-id="${d.id}">✓</button>
-                    <button class="btn-suppr" data-id="${d.id}">X</button>
-                </div>`;
-        });
-    });
-}

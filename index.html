@@ -2,8 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Productivité</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,24 +18,9 @@
     </div>
 
     <div id="app" class="main-wrapper" style="display: none;">
-        <header class="profile-card">
-            <img src="medias/default-avatar.png" alt="Profil" class="profile-img" id="profileImg">
-            <div class="profile-info">
-                <h1 id="userName"></h1>
-                <button id="logoutBtn" class="btn-supprimer">Déconnexion</button>
-            </div>
-        </header>
-
-        <section class="task-form">
-            <input type="text" id="taskInput" placeholder="Nouvelle mission...">
-            <select id="taskCategory">
-                <option value="Cours">📚 Cours</option>
-                <option value="Perso">🏠 Perso</option>
-            </select>
-            <button id="addBtn">Ajouter</button>
-        </section>
-
-        <main class="grid-container" id="taskGrid"></main>
+        <h1 id="userName"></h1>
+        <div id="taskGrid"></div>
+        <button id="logoutBtn">Déconnexion</button>
     </div>
 
     <script type="module" src="script.js"></script>
