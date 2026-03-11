@@ -2,13 +2,15 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Cloud</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Dalya Meharzi</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div id="loginPage" class="login-wrapper">
-        <div class="card">
-            <h1>Connexion</h1>
+        <div class="login-card">
+            <h1>Bienvenue</h1>
             <input type="text" id="loginNom" placeholder="Nom">
             <input type="text" id="loginPrenom" placeholder="Prénom">
             <input type="email" id="loginMail" placeholder="Email">
@@ -18,24 +20,38 @@
 
     <div id="app" class="main-wrapper" style="display: none;">
         <header class="profile-card">
+            <label for="fileInput" class="image-upload">
+                <img src="medias/Photodeprofil.png" alt="Profil" class="profile-img" id="profileImg">
+            </label>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            
             <div class="profile-info">
-                <h1 id="userName"></h1>
+                <h1 id="userName">Chargement...</h1>
                 <p id="userTitle" contenteditable="true">Dashboard de Productivité</p>
-                <button id="logoutBtn" style="background: #da3633; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">Déconnexion</button>
+                <button id="logoutBtn" class="btn-supprimer">Déconnexion</button>
             </div>
         </header>
 
+        <div class="stats-box">
+            <p id="statsText">0% des tâches complétées</p>
+            <div class="progress-bar"><div id="progressBar"></div></div>
+        </div>
+
         <section class="task-form">
-            <input type="text" id="taskInput" placeholder="Mission...">
+            <input type="text" id="taskInput" placeholder="Quelle est la mission ?">
             <select id="taskCategory">
                 <option value="Cours">📚 Cours</option>
                 <option value="Perso">🏠 Perso</option>
+                <option value="Travail">💼 Travail</option>
+                <option value="Asso">🤝 Asso</option>
             </select>
             <button id="addBtn">Ajouter</button>
         </section>
 
         <main class="grid-container" id="taskGrid"></main>
     </div>
+
+    <footer>Code et design Dalya MEHARZI © 2026</footer>
 
     <script type="module" src="script.js"></script>
 </body>

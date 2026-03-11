@@ -1,33 +1,39 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background-color: #0d1117; color: #c9d1d9; font-family: sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
-.main-wrapper { flex: 1; width: 90%; max-width: 1070px; margin: 20px auto; }
+/* Réinitialisation de base */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background: #0d1117; color: #c9d1d9; min-height: 100vh; display: flex; flex-direction: column; }
 
-.profile-card { display: flex; align-items: center; gap: 20px; background: #161b22; padding: 20px; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px; }
-.image-upload { cursor: pointer; transition: opacity 0.3s; }
-.image-upload:hover { opacity: 0.7; }
-.profile-img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
+/* Page de connexion centrée */
+.login-wrapper { 
+    display: flex; justify-content: center; align-items: center; min-height: 100vh; 
+}
+.login-card { 
+    background: #161b22; padding: 40px; border-radius: 12px; border: 1px solid #30363d; 
+    width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 15px; 
+}
+.login-card input { 
+    padding: 12px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: white; 
+}
+.login-card button { 
+    padding: 12px; background: #238636; color: white; border: none; border-radius: 6px; 
+    cursor: pointer; font-weight: bold; transition: 0.3s;
+}
+.login-card button:hover { background: #2ea043; }
 
-.stats-box, .task-form, .card { background: #161b22; padding: 20px; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px; }
-.progress-bar { background: #30363d; height: 10px; border-radius: 5px; margin-top: 10px; overflow: hidden; }
-#progressBar { background: #238636; height: 100%; width: 0%; transition: 0.5s; }
+/* Layout principal */
+.main-wrapper { padding: 20px; max-width: 900px; margin: auto; }
+.profile-card { display: flex; align-items: center; gap: 20px; background: #161b22; padding: 20px; border-radius: 12px; }
+.profile-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #30363d; }
 
-.task-form { display: flex; gap: 10px; }
-.grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+/* Grille des tâches */
+.task-form { margin: 20px 0; display: flex; gap: 10px; }
+.grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
+.card { background: #161b22; padding: 20px; border-radius: 8px; border: 1px solid #30363d; }
 
-.card { border-left: 5px solid #8b949e; }
-.card.encours { border-left-color: #f78166; } 
-.card.termine { border-left-color: #238636; } 
-.card.attente { border-left-color: #a371f7; }
+/* Footer */
+footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #8b949e; margin-top: auto; }
 
-button { border: none; padding: 8px; border-radius: 4px; cursor: pointer; color: white; margin-top: 5px; width: 100%; font-weight: bold; }
-#addBtn { background-color: #238636; }
-.btn-encours { background: #f78166; }
-.btn-termine { background: #238636; }
-.btn-attente { background: #a371f7; }
-.btn-supprimer { background: #57606a; }
-
-footer { text-align: center; padding: 20px; color: #8b949e; border-top: 1px solid #30363d; margin-top: auto; }
-
-#userName, #userTitle { padding: 2px 5px; border-radius: 4px; transition: 0.2s; }
-#userName:hover, #userTitle:hover { background-color: #30363d; cursor: text; }
-#userName:focus, #userTitle:focus { background-color: #30363d; outline: none; border-bottom: 2px solid #58a6ff; }
+/* Bouton supprimer spécifique */
+.btn-supprimer { 
+    background: #da3633; color: white; border: none; padding: 5px 10px; 
+    cursor: pointer; border-radius: 4px; margin-top: 10px; 
+}
