@@ -1,39 +1,56 @@
-/* Réinitialisation de base */
+/* --- Reset & Base --- */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 body { background: #0d1117; color: #c9d1d9; min-height: 100vh; display: flex; flex-direction: column; }
 
-/* Page de connexion centrée */
+/* --- Bloc de Connexion (Le fameux bloc) --- */
 .login-wrapper { 
-    display: flex; justify-content: center; align-items: center; min-height: 100vh; 
+    display: flex; justify-content: center; align-items: center; 
+    min-height: 100vh; background: #010409; /* Fond très sombre pour contraster */
 }
 .login-card { 
-    background: #161b22; padding: 40px; border-radius: 12px; border: 1px solid #30363d; 
-    width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 15px; 
+    background: #161b22; padding: 32px; border-radius: 16px; 
+    border: 1px solid #30363d; width: 100%; max-width: 400px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Effet de profondeur */
+    display: flex; flex-direction: column; gap: 20px; 
 }
+.login-card h1 { font-size: 1.5rem; text-align: center; color: #f0f6fc; }
 .login-card input { 
-    padding: 12px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: white; 
+    padding: 12px; border-radius: 8px; border: 1px solid #30363d; 
+    background: #0d1117; color: white; width: 100%;
 }
 .login-card button { 
-    padding: 12px; background: #238636; color: white; border: none; border-radius: 6px; 
-    cursor: pointer; font-weight: bold; transition: 0.3s;
+    padding: 12px; background: #238636; color: white; border: none; 
+    border-radius: 8px; cursor: pointer; font-weight: 600;
 }
-.login-card button:hover { background: #2ea043; }
 
-/* Layout principal */
-.main-wrapper { padding: 20px; max-width: 900px; margin: auto; }
-.profile-card { display: flex; align-items: center; gap: 20px; background: #161b22; padding: 20px; border-radius: 12px; }
-.profile-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #30363d; }
-
-/* Grille des tâches */
-.task-form { margin: 20px 0; display: flex; gap: 10px; }
-.grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
-.card { background: #161b22; padding: 20px; border-radius: 8px; border: 1px solid #30363d; }
-
-/* Footer */
-footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #8b949e; margin-top: auto; }
-
-/* Bouton supprimer spécifique */
-.btn-supprimer { 
-    background: #da3633; color: white; border: none; padding: 5px 10px; 
-    cursor: pointer; border-radius: 4px; margin-top: 10px; 
+/* --- Dashboard --- */
+.main-wrapper { padding: 40px 20px; max-width: 900px; margin: 0 auto; width: 100%; }
+.profile-card { 
+    display: flex; align-items: center; gap: 25px; 
+    background: #161b22; padding: 25px; border-radius: 16px; border: 1px solid #30363d; 
 }
+.profile-img { 
+    width: 100px; height: 100px; border-radius: 50%; 
+    object-fit: cover; border: 3px solid #30363d; cursor: pointer;
+}
+
+/* --- Grille des tâches avec design propre --- */
+.grid-container { 
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 20px; margin-top: 30px; 
+}
+.card { 
+    background: #161b22; padding: 20px; border-radius: 12px; 
+    border: 1px solid #30363d; transition: transform 0.2s;
+}
+.card:hover { transform: translateY(-5px); }
+
+/* --- Boutons d'actions --- */
+.card-actions { display: flex; gap: 8px; margin-top: 15px; }
+.card-actions button { 
+    background: #21262d; border: 1px solid #30363d; color: #c9d1d9; 
+    padding: 6px 12px; border-radius: 6px; cursor: pointer; 
+}
+.btn-supprimer { background: #da3633 !important; color: white !important; }
+
+footer { text-align: center; padding: 40px; font-size: 0.9rem; color: #8b949e; }

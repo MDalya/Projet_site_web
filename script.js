@@ -1,51 +1,31 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, where, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-// --- CONFIGURATION FIREBASE ---
-const firebaseConfig = {
-    apiKey: "AIzaSyDS6qeoE5mZ6vQbaEuY5mLG76CEhlyFyAc",
-    authDomain: "projet-site-web-portfolio.firebaseapp.com",
-    projectId: "projet-site-web-portfolio",
-    storageBucket: "projet-site-web-portfolio.firebasestorage.app",
-    messagingSenderId: "646439541766",
-    appId: "1:646439541766:web:610bca11a9c95767a7b787",
-    measurementId: "G-34K5W24YCK"
-};
-
+const firebaseConfig = { /* REMPLACE PAR TON OBJET CONFIG */ };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// --- LOGIQUE APPLICATION ---
 const catEmojis = { 'Cours': '📚', 'Perso': '🏠', 'Travail': '💼', 'Asso': '🤝' };
 
-// 1. Gestion de la connexion
 if (localStorage.getItem('userMail')) showApp();
 
 document.getElementById('loginBtn').onclick = () => {
     const nom = document.getElementById('loginNom').value;
     const prenom = document.getElementById('loginPrenom').value;
     const mail = document.getElementById('loginMail').value;
-    
-    if (nom && prenom && mail) {
-        localStorage.setItem('userMail', mail);
-        localStorage.setItem('userNom', `${nom} ${prenom}`);
-        showApp();
-    }
+    localStorage.setItem('userMail', mail);
+    localStorage.setItem('userNom', `${nom} ${prenom}`);
+    showApp();
 };
 
 function showApp() {
     document.getElementById('loginPage').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     document.getElementById('userName').innerText = localStorage.getItem('userNom');
-    
-    // Rétablir photo si présente
-    const savedImg = localStorage.getItem('userAvatar');
-    if(savedImg) document.getElementById('profileImg').src = savedImg;
-    
+    if(localStorage.getItem('userAvatar')) document.getElementById('profileImg').src = localStorage.getItem('userAvatar');
     loadTasks();
 }
 
-// 2. Upload Photo (Local)
 document.getElementById('fileInput').addEventListener('change', (e) => {
     const reader = new FileReader();
     reader.onload = (event) => {
@@ -55,41 +35,36 @@ document.getElementById('fileInput').addEventListener('change', (e) => {
     reader.readAsDataURL(e.target.files[0]);
 });
 
-// 3. Gestion Tâches Firestore
 function loadTasks() {
-    const q = query(collection(db, "tasks"), where("user", "==", localStorage.getItem('userMail')));
-    onSnapshot(q, (snapshot) => {
+    const statusConfig = {
+        'encours': { color: '#f7931a', label: 'En cours' },
+        'termine': { color: '#238636', label: 'Terminé' },
+        'indetermine': { color: '#8250df', label: 'Non déterminé' }
+    };
+
+    onSnapshot(query(collection(db, "tasks"), where("user", "==", localStorage.getItem('userMail'))), (snapshot) => {
         const grid = document.getElementById('taskGrid');
         grid.innerHTML = "";
         snapshot.forEach(doc => {
             const t = doc.data();
+            const s = t.status || 'indetermine';
             grid.innerHTML += `
-                <div class="card">
+                <div class="card" style="border-left: 5px solid ${statusConfig[s].color};">
                     <h3>${catEmojis[t.category] || ''} ${t.text}</h3>
-                    <button class="btn-supprimer" onclick="window.supprimer('${doc.id}')">Supprimer</button>
+                    <div class="card-actions">
+                        <button onclick="window.update('${doc.id}', 'termine')">✓</button>
+                        <button onclick="window.update('${doc.id}', 'encours')">⏳</button>
+                        <button onclick="window.update('${doc.id}', 'indetermine')">❓</button>
+                        <button class="btn-supprimer" onclick="window.supprimer('${doc.id}')">X</button>
+                    </div>
                 </div>`;
         });
     });
 }
 
-document.getElementById('addBtn').onclick = () => {
-    const input = document.getElementById('taskInput');
-    const cat = document.getElementById('taskCategory').value;
-    if(input.value) {
-        addDoc(collection(db, "tasks"), { 
-            text: input.value,
-            category: cat,
-            user: localStorage.getItem('userMail') 
-        });
-        input.value = "";
-    }
-};
-
-// Exposer supprimer au scope global pour le bouton HTML
+window.update = (id, status) => updateDoc(doc(db, "tasks", id), { status });
 window.supprimer = (id) => deleteDoc(doc(db, "tasks", id));
-
-// 4. Déconnexion
-document.getElementById('logoutBtn').onclick = () => { 
-    localStorage.clear(); 
-    location.reload(); 
+document.getElementById('addBtn').onclick = () => {
+    addDoc(collection(db, "tasks"), { text: document.getElementById('taskInput').value, category: document.getElementById('taskCategory').value, user: localStorage.getItem('userMail'), status: 'indetermine' });
 };
+document.getElementById('logoutBtn').onclick = () => { localStorage.clear(); location.reload(); };
