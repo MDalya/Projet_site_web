@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = `card ${t.status}`;
             card.innerHTML = `
                 <h3>${catEmojis[t.category]} ${t.text}</h3>
-                <small>Statut: ${t.status}</small>
                 <button class="btn-encours" onclick="update(${t.id}, 'encours')">En cours</button>
                 <button class="btn-termine" onclick="update(${t.id}, 'termine')">Terminé</button>
                 <button class="btn-attente" onclick="update(${t.id}, 'attente')">En attente</button>
@@ -18,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             taskGrid.appendChild(card);
         });
+        localStorage.setItem('dalyaTasks', JSON.stringify(tasks));
     }
 
     window.update = (id, status) => {
@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const category = document.getElementById('taskCategory').value;
         if(text) {
             tasks.push({id: Date.now(), text, category, status: 'encours'});
+            document.getElementById('taskInput').value = "";
             render();
         }
     };

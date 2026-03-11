@@ -2,24 +2,34 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Dalya Meharzi</title>
     <link rel="stylesheet" href="style.css">
-    <title>Dashboard</title>
 </head>
 <body>
     <div class="main-wrapper">
-        <header class="profile-card"><h1>MEHARZI Dalya</h1></header>
+        <header class="profile-card">
+            <img src="medias/Photodeprofil.png" alt="Profil" class="profile-img">
+            <div class="profile-info">
+                <h1>MEHARZI Dalya</h1>
+                <p>Dashboard de Productivité</p>
+            </div>
+        </header>
+
         <section class="task-form">
-            <input type="text" id="taskInput" placeholder="Mission...">
+            <input type="text" id="taskInput" placeholder="Quelle est la mission ?">
             <select id="taskCategory">
                 <option value="Cours">Cours</option>
                 <option value="Perso">Perso</option>
                 <option value="Travail">Travail</option>
                 <option value="Asso">Asso</option>
             </select>
-            <button id="addBtn" style="background:#238636">Ajouter</button>
+            <button id="addBtn">Ajouter</button>
         </section>
+
         <main class="grid-container" id="taskGrid"></main>
     </div>
+
     <footer>Code et design Dalya MEHARZI © 2026</footer>
     <script src="script.js"></script>
 </body>
