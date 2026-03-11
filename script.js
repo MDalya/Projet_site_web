@@ -19,15 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const guestBtn = document.getElementById('guestBtn');
     const logoutBtn = document.getElementById('logoutBtn');
     const addBtn = document.getElementById('addBtn');
+    const fileInput = document.getElementById('fileInput');
+    const avatarLabel = document.getElementById('avatarLabel');
 
-    // Connexion avec validation
+    // --- CONNEXION ---
     if (loginBtn) {
         loginBtn.addEventListener('click', () => {
             const n = document.getElementById('loginNom').value.trim();
             const p = document.getElementById('loginPrenom').value.trim();
             const m = document.getElementById('loginMail').value.trim();
-            if (!n || !p || !m) return alert("Merci de remplir tous les champs !");
-            
+            if (!n || !p || !m) return alert("Veuillez remplir tous les champs !");
             localStorage.setItem('userNom', `${n} ${p}`);
             localStorage.setItem('userMail', m);
             window.location.reload();
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         guestBtn.addEventListener('click', () => {
             localStorage.setItem('userNom', "Invité");
             localStorage.setItem('userMail', "guest");
-            localStorage.removeItem('userAvatar'); // L'invité n'a jamais de photo perso
+            localStorage.removeItem('userAvatar'); // Reset PP pour l'invité
             window.location.reload();
         });
     }
@@ -50,6 +51,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- PHOTO DE PROFIL ---
+    const userMail = localStorage.getItem('userMail');
+    if (userMail === "guest") {
+        avatarLabel.style.cursor = "default";
+        fileInput.disabled = true;
+    } else if (fileInput) {
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const base64Image = event.target.result;
+                    document.getElementById('profileImg').src = base64Image;
+                    localStorage.setItem('userAvatar', base64Image);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // --- TACHES ---
     if (addBtn) {
         addBtn.addEventListener('click', async () => {
             const input = document.getElementById('taskInput');
@@ -57,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 await addDoc(collection(db, "tasks"), {
                     text: input.value,
                     category: document.getElementById('taskCategory').value,
-                    user: localStorage.getItem('userMail'),
+                    user: userMail,
                     status: 'indetermine'
                 });
                 input.value = "";
@@ -65,21 +87,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Affichage au chargement
-    const userMail = localStorage.getItem('userMail');
+    // --- INITIALISATION AFFICHAGE ---
     if (userMail) {
         document.getElementById('loginPage').style.display = 'none';
         document.getElementById('app').style.display = 'block';
         document.getElementById('userName').innerText = localStorage.getItem('userNom');
         
-        // Gestion de la photo de profil
-        const imgElement = document.getElementById('profileImg');
+        // Charger la photo
         const savedAvatar = localStorage.getItem('userAvatar');
-        
-        if (userMail === "guest" || !savedAvatar) {
-            imgElement.src = "icons/default-pp.png";
-        } else {
+        const imgElement = document.getElementById('profileImg');
+        if (userMail !== "guest" && savedAvatar) {
             imgElement.src = savedAvatar;
+        } else {
+            imgElement.src = "icons/default-pp.png";
         }
         
         loadTasks(userMail);
@@ -88,6 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function loadTasks(userMail) {
     const grid = document.getElementById('taskGrid');
+    const emojis = { 'Cours': '📚', 'Perso': '🏠', 'Travail': '💼', 'Asso': '🤝' };
+
     onSnapshot(query(collection(db, "tasks"), where("user", "==", userMail)), (snapshot) => {
         grid.innerHTML = "";
         snapshot.forEach(d => {
@@ -95,7 +117,7 @@ function loadTasks(userMail) {
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-                <h3>${t.text}</h3>
+                <h3>${emojis[t.category] || '📌'} ${t.text}</h3>
                 <div class="card-actions">
                     <button class="btn-suppr" data-id="${d.id}">Supprimer</button>
                 </div>`;

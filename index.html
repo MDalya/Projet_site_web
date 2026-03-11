@@ -21,7 +21,11 @@
     <div id="app" class="main-wrapper" style="display: none;">
         <header class="profile-card">
             <div class="profile-layout">
-                <img src="icons/default-pp.png" alt="Profil" class="profile-img" id="profileImg">
+                <label for="fileInput" id="avatarLabel" style="cursor: pointer;">
+                    <img src="icons/default-pp.png" alt="Profil" class="profile-img" id="profileImg">
+                </label>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                
                 <div class="profile-info">
                     <h1 id="userName"></h1>
                     <p id="userTitle">Ma Productivité</p>
