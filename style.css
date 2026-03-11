@@ -9,8 +9,8 @@ body { background: #0d1117; color: #c9d1d9; min-height: 100vh; display: flex; fl
 .profile-card { display: flex; align-items: center; gap: 20px; background: #161b22; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
 .profile-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #30363d; cursor: pointer; }
 .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-.card { background: #161b22; padding: 20px; border-radius: 8px; border: 1px solid #30363d; display: flex; flex-direction: column; }
-.card-actions { display: flex; gap: 10px; margin-top: auto; padding-top: 15px; }
+.card { background: #161b22; padding: 20px; border-radius: 8px; border: 1px solid #30363d; }
+.card-actions { display: flex; gap: 5px; margin-top: 15px; }
 .card-actions button { background: #21262d; border: 1px solid #30363d; padding: 5px 10px; border-radius: 4px; cursor: pointer; color: white; }
 .btn-supprimer { background: #da3633 !important; }
 footer { text-align: center; padding: 20px; color: #8b949e; margin-top: auto; }

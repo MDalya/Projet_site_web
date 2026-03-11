@@ -1,75 +1,68 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, where, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-const firebaseConfig = { /* REMPLACE PAR TON OBJET CONFIG */ };
+const firebaseConfig = { /* TON CONFIG ICI */ };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const catEmojis = { 'Cours': '📚', 'Perso': '🏠', 'Travail': '💼', 'Asso': '🤝' };
 
-// Chargement sécurisé
 document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('userMail')) showApp();
-
-    document.getElementById('loginBtn').onclick = () => {
+    // Connexion
+    document.getElementById('loginBtn').addEventListener('click', () => {
         localStorage.setItem('userNom', `${document.getElementById('loginNom').value} ${document.getElementById('loginPrenom').value}`);
         localStorage.setItem('userMail', document.getElementById('loginMail').value);
         showApp();
-    };
+    });
 
-    document.getElementById('guestBtn').onclick = () => {
+    document.getElementById('guestBtn').addEventListener('click', () => {
         localStorage.setItem('userNom', "Invité");
         localStorage.setItem('userMail', "guest");
         showApp();
-    };
+    });
+
+    document.getElementById('addBtn').addEventListener('click', () => {
+        addDoc(collection(db, "tasks"), { text: document.getElementById('taskInput').value, category: document.getElementById('taskCategory').value, user: localStorage.getItem('userMail'), status: 'indetermine' });
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.clear(); location.reload(); });
+
+    // Délégation d'événements pour les boutons dynamiques
+    document.getElementById('taskGrid').addEventListener('click', (e) => {
+        const id = e.target.dataset.id;
+        if (e.target.classList.contains('btn-term')) updateDoc(doc(db, "tasks", id), { status: 'termine' });
+        if (e.target.classList.contains('btn-encours')) updateDoc(doc(db, "tasks", id), { status: 'encours' });
+        if (e.target.classList.contains('btn-indet')) updateDoc(doc(db, "tasks", id), { status: 'indetermine' });
+        if (e.target.classList.contains('btn-supprimer')) deleteDoc(doc(db, "tasks", id));
+    });
+
+    if (localStorage.getItem('userMail')) showApp();
 });
 
 function showApp() {
     document.getElementById('loginPage').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     document.getElementById('userName').innerText = localStorage.getItem('userNom');
-    if(localStorage.getItem('userAvatar')) document.getElementById('profileImg').src = localStorage.getItem('userAvatar');
     loadTasks();
 }
 
-document.getElementById('fileInput').addEventListener('change', (e) => {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        document.getElementById('profileImg').src = event.target.result;
-        localStorage.setItem('userAvatar', event.target.result);
-    };
-    reader.readAsDataURL(e.target.files[0]);
-});
-
 function loadTasks() {
-    const statusConfig = {
-        'encours': { color: '#f7931a' },
-        'termine': { color: '#238636' },
-        'indetermine': { color: '#8250df' }
-    };
+    const statusConfig = { 'encours': '#f7931a', 'termine': '#238636', 'indetermine': '#8250df' };
+    const catEmojis = { 'Cours': '📚', 'Perso': '🏠', 'Travail': '💼', 'Asso': '🤝' };
+
     onSnapshot(query(collection(db, "tasks"), where("user", "==", localStorage.getItem('userMail'))), (snapshot) => {
         const grid = document.getElementById('taskGrid');
         grid.innerHTML = "";
-        snapshot.forEach(doc => {
-            const t = doc.data();
-            const s = t.status || 'indetermine';
+        snapshot.forEach(d => {
+            const t = d.data();
             grid.innerHTML += `
-                <div class="card" style="border-left: 5px solid ${statusConfig[s].color};">
-                    <h3>${catEmojis[t.category] || ''} ${t.text}</h3>
+                <div class="card" style="border-left: 5px solid ${statusConfig[t.status || 'indetermine']};">
+                    <h3>${catEmojis[t.category]} ${t.text}</h3>
                     <div class="card-actions">
-                        <button onclick="window.update('${doc.id}', 'termine')">✓</button>
-                        <button onclick="window.update('${doc.id}', 'encours')">⏳</button>
-                        <button onclick="window.update('${doc.id}', 'indetermine')">❓</button>
-                        <button class="btn-supprimer" onclick="window.supprimer('${doc.id}')">X</button>
+                        <button class="btn-term" data-id="${d.id}">✓</button>
+                        <button class="btn-encours" data-id="${d.id}">⏳</button>
+                        <button class="btn-indet" data-id="${d.id}">❓</button>
+                        <button class="btn-supprimer" data-id="${d.id}">X</button>
                     </div>
                 </div>`;
         });
     });
 }
-
-document.getElementById('addBtn').onclick = () => {
-    addDoc(collection(db, "tasks"), { text: document.getElementById('taskInput').value, category: document.getElementById('taskCategory').value, user: localStorage.getItem('userMail'), status: 'indetermine' });
-};
-
-window.update = (id, status) => updateDoc(doc(db, "tasks", id), { status });
-window.supprimer = (id) => deleteDoc(doc(db, "tasks", id));
-document.getElementById('logoutBtn').onclick = () => { localStorage.clear(); location.reload(); };
