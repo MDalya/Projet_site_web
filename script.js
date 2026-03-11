@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const n = document.getElementById('loginNom').value.trim();
         const p = document.getElementById('loginPrenom').value.trim();
         const m = document.getElementById('loginMail').value.trim();
-        if (!n || !p || !m) return alert("Remplissez tout !");
+        if (!n || !p || !m) return alert("Veuillez remplir tous les champs !");
         localStorage.setItem('userNom', `${n} ${p}`);
         localStorage.setItem('userMail', m);
         window.location.reload();
@@ -43,8 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('fileInput');
     const avatarLabel = document.getElementById('avatarLabel');
     if (userMail === "guest") {
-        avatarLabel.style.cursor = "default";
-        avatarLabel.style.pointerEvents = "none";
+        if (avatarLabel) avatarLabel.style.pointerEvents = "none";
     } else {
         fileInput?.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -90,13 +89,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function loadTasks(userMail) {
     const grid = document.getElementById('taskGrid');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
     const emojis = { 'Cours': '📚', 'Perso': '🏠', 'Travail': '💼', 'Asso': '🤝' };
     const statusColors = { 'termine': '#238636', 'encours': '#f7931a', 'indetermine': '#8250df' };
 
     onSnapshot(query(collection(db, "tasks"), where("user", "==", userMail)), (snapshot) => {
         grid.innerHTML = "";
+        let total = 0;
+        let faits = 0;
+
         snapshot.forEach(d => {
             const t = d.data();
+            total++;
+            if (t.status === 'termine') faits++;
+
             const color = statusColors[t.status] || '#8250df';
             const card = document.createElement('div');
             card.className = 'card';
@@ -104,15 +111,24 @@ function loadTasks(userMail) {
             card.innerHTML = `
                 <h3>${emojis[t.category] || '📌'} ${t.text}</h3>
                 <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-                    <button class="b-st" data-s="termine" style="background:#238636; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:10px;">Fait</button>
-                    <button class="b-st" data-s="encours" style="background:#f7931a; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:10px;">Cours</button>
-                    <button class="b-st" data-s="indetermine" style="background:#8250df; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:10px;">Attente</button>
-                    <button class="b-del" style="background:#f85149; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:10px; margin-left:auto;">X</button>
+                    <button class="b-st" data-s="termine" style="background:#238636; border:none; color:white; padding:5px 8px; border-radius:4px; cursor:pointer; font-size:10px;">Fait</button>
+                    <button class="b-st" data-s="encours" style="background:#f7931a; border:none; color:white; padding:5px 8px; border-radius:4px; cursor:pointer; font-size:10px;">Cours</button>
+                    <button class="b-st" data-s="indetermine" style="background:#8250df; border:none; color:white; padding:5px 8px; border-radius:4px; cursor:pointer; font-size:10px;">Attente</button>
+                    <button class="b-del" style="background:#f85149; border:none; color:white; padding:5px 8px; border-radius:4px; cursor:pointer; font-size:10px; margin-left:auto;">Suppr.</button>
                 </div>`;
             
             card.querySelectorAll('.b-st').forEach(b => b.onclick = () => updateDoc(doc(db, "tasks", d.id), { status: b.dataset.s }));
-            card.querySelector('.b-del').onclick = () => deleteDoc(doc(db, "tasks", d.id));
+            card.querySelector('.b-del').onclick = () => {
+                if(confirm("Supprimer ?")) deleteDoc(doc(db, "tasks", d.id));
+            };
             grid.appendChild(card);
         });
+
+        // Calcul dynamique de la barre
+        const pourcentage = total > 0 ? Math.round((faits / total) * 100) : 0;
+        if (progressBar && progressText) {
+            progressBar.style.width = `${pourcentage}%`;
+            progressText.innerText = `${pourcentage}%`;
+        }
     });
 }

@@ -17,12 +17,19 @@ body {
 .main-wrapper { width: 100%; max-width: 900px; margin: 0 auto; padding: 40px 20px; flex-grow: 1; }
 
 /* PROFIL */
-.profile-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 25px; margin-bottom: 30px; }
+.profile-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 25px; margin-bottom: 20px; }
 .profile-layout { display: flex; align-items: center; gap: 20px; }
-.avatar-label { cursor: pointer; transition: 0.2s; }
-.avatar-label:hover .profile-img { filter: brightness(0.7); border-color: #2f81f7; }
-.profile-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #30363d; }
+.avatar-label { cursor: pointer; transition: 0.2s; border-radius: 50%; overflow: hidden; }
+.avatar-label:hover .profile-img { filter: brightness(0.7); }
+.profile-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #30363d; display: block; }
 .btn-supprimer-link { background: none; border: none; color: #f85149; cursor: pointer; text-decoration: underline; font-size: 14px; }
+
+/* BARRE DE PROGRESSION */
+.progress-container { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 15px; margin-bottom: 20px; }
+.progress-info { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; font-weight: bold; }
+#progressText { color: #2f81f7; }
+.progress-bar-bg { background: #0d1117; border-radius: 10px; height: 12px; width: 100%; overflow: hidden; border: 1px solid #30363d; }
+.progress-bar-fill { background: #238636; height: 100%; width: 0%; transition: width 0.4s ease; }
 
 /* FORM TACHES */
 .task-form { display: flex; gap: 10px; margin-bottom: 30px; }
@@ -32,7 +39,7 @@ body {
 
 /* GRILLE ET CARTES */
 .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-.card { background: #161b22; border: 1px solid #30363d; padding: 15px; border-radius: 8px; transition: 0.3s; }
-.card h3 { font-size: 16px; margin-bottom: 10px; }
+.card { background: #161b22; border: 1px solid #30363d; padding: 15px; border-radius: 8px; }
+.card h3 { font-size: 16px; margin-bottom: 12px; }
 
 footer { text-align: center; padding: 20px; color: #8b949e; font-size: 12px; border-top: 1px solid #30363d; margin-top: auto; }
