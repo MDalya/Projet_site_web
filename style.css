@@ -1,49 +1,35 @@
-/* Réinitialisation globale pour forcer le dark mode partout */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-    background-color: #0d1117 !important; /* Fond noir GitHub */
-    color: #c9d1d9 !important;           /* Texte gris clair GitHub */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+body { 
+    background-color: #0d1117 !important; 
+    color: #c9d1d9 !important; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     min-height: 100vh;
-    padding: 20px;
 }
 
-/* On force tous les blocs à être sombres */
-.profile-card, .stats-box, .task-form, .card, footer {
-    background-color: #161b22 !important;
+.container { width: 90%; max-width: 1070px; margin: 20px auto; }
+
+.profile-card, .stats-box, .task-form, .card { 
+    background-color: #161b22 !important; 
     border: 1px solid #30363d !important;
-    border-radius: 8px;
+    border-radius: 8px; 
     padding: 20px;
     margin-bottom: 20px;
-    color: #c9d1d9 !important;
 }
 
-/* Textes */
-h1, h2, h3, .nom { color: #ffffff !important; }
-.sous-titre { color: #8b949e !important; }
+.profile-card { display: flex; align-items: center; gap: 20px; }
+.profile-img { width: 70px; height: 70px; border-radius: 8px; }
+.nom { font-size: 1.5rem; font-weight: bold; color: #ffffff !important; }
 
-/* Input et Select */
-input, select {
-    background-color: #0d1117 !important;
-    border: 1px solid #30363d !important;
-    color: white !important;
-    padding: 8px;
-    border-radius: 6px;
-}
+.progress-bar { background: #30363d; height: 8px; border-radius: 4px; margin-top: 10px; overflow: hidden; }
+#progressBar { background: #238636; height: 100%; width: 0%; transition: 0.3s; }
 
-/* Bouton Ajouter */
-button {
-    background-color: #238636;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-}
+.task-form { display: flex; gap: 10px; }
+input, select { background: #0d1117 !important; border: 1px solid #30363d !important; color: white !important; padding: 8px; border-radius: 6px; }
 
-button:hover { background-color: #2ea043; }
+.grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.card { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+
+button { background-color: #238636; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; }
+
+footer { text-align: center; color: #8b949e; margin-top: 40px; }

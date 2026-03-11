@@ -4,48 +4,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function render() {
         taskGrid.innerHTML = "";
-        let completedCount = 0;
-
+        let completed = 0;
         tasks.forEach(t => {
-            if(t.status === 'termine') completedCount++;
+            if(t.status === 'termine') completed++;
             const card = document.createElement('div');
             card.className = 'card';
-            card.innerHTML = `
-                <h3>${t.text} <small style="color:#8b949e">(${t.cat})</small></h3>
-                <div class="card-buttons">
-                    <button class="btn-encours" onclick="update(${t.id}, 'encours')">En cours</button>
-                    <button class="btn-termine" onclick="update(${t.id}, 'termine')">Terminé</button>
-                    <button class="btn-supprimer" onclick="del(${t.id})">Supprimer</button>
-                </div>
-            `;
+            card.innerHTML = `<h3>${t.text}</h3><button onclick="update(${t.id})">Terminer</button>`;
             taskGrid.appendChild(card);
         });
-
-        const pct = tasks.length ? Math.round((completedCount / tasks.length) * 100) : 0;
-        document.getElementById('progressBar').style.width = pct + "%";
-        document.getElementById('statsText').innerText = pct + "% des tâches complétées";
+        document.getElementById('progressBar').style.width = (tasks.length ? (completed / tasks.length)*100 : 0) + "%";
         localStorage.setItem('dalyaTasks', JSON.stringify(tasks));
     }
 
     document.getElementById('addBtn').onclick = () => {
         const text = document.getElementById('taskInput').value;
-        const cat = document.getElementById('taskCategory').value;
         if(text) {
-            tasks.push({id: Date.now(), text, cat, status: 'encours'});
-            document.getElementById('taskInput').value = "";
+            tasks.push({id: Date.now(), text, status: 'encours'});
             render();
         }
     };
 
-    window.update = (id, status) => {
-        tasks = tasks.map(t => t.id === id ? {...t, status} : t);
+    window.update = (id) => {
+        tasks = tasks.map(t => t.id === id ? {...t, status: 'termine'} : t);
         render();
     };
-
-    window.del = (id) => {
-        tasks = tasks.filter(t => t.id !== id);
-        render();
-    };
-
     render();
 });
